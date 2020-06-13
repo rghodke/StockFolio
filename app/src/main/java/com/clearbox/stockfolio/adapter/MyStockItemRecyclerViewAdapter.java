@@ -1,4 +1,4 @@
-package fragment;
+package com.clearbox.stockfolio.adapter;
 
 import androidx.recyclerview.widget.RecyclerView;
 

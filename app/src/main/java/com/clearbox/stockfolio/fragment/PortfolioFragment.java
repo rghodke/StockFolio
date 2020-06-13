@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.clearbox.stockfolio.R;
+import com.clearbox.stockfolio.adapter.MyStockItemRecyclerViewAdapter;
 
 import fragment.dummy.DummyContent;
 
@@ -55,7 +55,7 @@ public class PortfolioFragment extends Fragment {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(new fragment.MyStockItemRecyclerViewAdapter(DummyContent.ITEMS));
+            recyclerView.setAdapter(new MyStockItemRecyclerViewAdapter(DummyContent.ITEMS));
         }
         return view;
     }
