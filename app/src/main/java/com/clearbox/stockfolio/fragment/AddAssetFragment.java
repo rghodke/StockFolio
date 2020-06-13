@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,14 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.clearbox.stockfolio.R;
-import com.clearbox.stockfolio.adapter.MyStockItemRecyclerViewAdapter;
-
-import fragment.dummy.DummyContent;
+import com.clearbox.stockfolio.adapter.MyAssetItemRecyclerViewAdapter;
+import com.clearbox.stockfolio.fragment.dummy.DummyContent;
 
 /**
  * A fragment representing a list of Items.
  */
-public class PortfolioFragment extends Fragment {
+public class AddAssetFragment extends Fragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -30,32 +30,40 @@ public class PortfolioFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public PortfolioFragment() {
+    public AddAssetFragment() {
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static PortfolioFragment newInstance() {
-        PortfolioFragment fragment = new PortfolioFragment();
+    public static AddAssetFragment newInstance() {
+        AddAssetFragment fragment = new AddAssetFragment();
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (getArguments() != null) {
+            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_portfolio_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_add_asset_list, container, false);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
-            recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(new MyStockItemRecyclerViewAdapter(DummyContent.ITEMS));
+            if (mColumnCount <= 1) {
+                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            } else {
+                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+            }
+            recyclerView.setAdapter(new MyAssetItemRecyclerViewAdapter(DummyContent.ITEMS));
         }
         return view;
     }
