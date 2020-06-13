@@ -33,21 +33,6 @@ public class MainActivity extends AppCompatActivity {
         mFragmentHolder = findViewById(R.id.FrameLayout_fragment_holder);
     }
 
-    private void goToAddTransactionFragment(View view) {
-        //Create a fragment if not already created
-        if (mAddAssetFragment == null) {
-            mAddAssetFragment = AddAssetFragment.newInstance();
-        }
-
-        //Setup the fragment holder as necessary
-        if (mFragmentHolder == null) setupViews();
-
-        //Fail-safe null check
-        if (mFragmentHolder != null) {
-            getSupportFragmentManager().beginTransaction().replace(mFragmentHolder.getId(),mAddAssetFragment).addToBackStack(ADD_ASSET_FRAG).commit();
-        }
-    }
-
     private void setupPortfolioFragment() {
         //Create a fragment if not already created
         if (mPortfolioFragment == null) {
@@ -59,7 +44,22 @@ public class MainActivity extends AppCompatActivity {
 
         //Fail-safe null check
         if (mFragmentHolder != null) {
-            getSupportFragmentManager().beginTransaction().replace(mFragmentHolder.getId(),mPortfolioFragment).addToBackStack(PORTFOLIO_FRAG).commit();
+            getSupportFragmentManager().beginTransaction().replace(mFragmentHolder.getId(), mPortfolioFragment).addToBackStack(PORTFOLIO_FRAG).commit();
+        }
+    }
+
+    public void goToAddTransactionFragment(View view) {
+        //Create a fragment if not already created
+        if (mAddAssetFragment == null) {
+            mAddAssetFragment = AddAssetFragment.newInstance();
+        }
+
+        //Setup the fragment holder as necessary
+        if (mFragmentHolder == null) setupViews();
+
+        //Fail-safe null check
+        if (mFragmentHolder != null) {
+            getSupportFragmentManager().beginTransaction().replace(mFragmentHolder.getId(), mAddAssetFragment).addToBackStack(ADD_ASSET_FRAG).commit();
         }
     }
 }
