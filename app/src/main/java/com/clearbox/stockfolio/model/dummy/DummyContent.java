@@ -1,4 +1,4 @@
-package com.clearbox.stockfolio.fragment.dummy;
+package fragment.dummy;
 
 import java.util.ArrayList;
 import java.util.HashMap;

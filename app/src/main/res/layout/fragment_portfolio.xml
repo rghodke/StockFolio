@@ -1,61 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    android:name="fragment.PortfolioFragment"
+    android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:weightSum="1000"
-    android:orientation="horizontal">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="fragment.PortfolioFragment">
 
-    <TextView
-        android:id="@+id/TextView_stock_name"
-        android:layout_weight="250"
-        android:layout_width="0dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RecyclerView_Portfolio"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_above="@+id/Toolbar"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_vertical"
-        android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem" />
+        app:layoutManager="LinearLayoutManager"
+        tools:listitem="@layout/list_item_portfolio" />
 
-    <RelativeLayout
-        android:id="@+id/RelativeLayout_stock_price_holder"
-        android:layout_width="0dp"
-        android:layout_weight="350"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/Toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_gravity="bottom"
+        android:background="?attr/colorPrimary"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:layout_alignParentBottom="true">
 
-        <TextView
-            android:id="@+id/TextView_stock_price"
+        <ImageButton
+            android:id="@+id/ImageButton_Add_Transaction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?attr/textAppearanceListItem"/>
+            android:layout_gravity="center"
+            android:onClick="goToAddTransactionFragment"
+            android:src="@android:drawable/ic_menu_add"
+            android:contentDescription="@android:drawable/ic_menu_add" />
 
-        <TextView
-            android:id="@+id/TextView_stock_price_delta"
-            android:layout_below="@+id/TextView_stock_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?attr/textAppearanceListItem"/>
+    </androidx.appcompat.widget.Toolbar>
 
-    </RelativeLayout>
+</RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/RelativeLayout_holdings_info_holder"
-        android:layout_weight="300"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_margin="@dimen/text_margin">
-
-        <TextView
-            android:id="@+id/TextView_holdings_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?attr/textAppearanceListItem"/>
-
-        <TextView
-            android:id="@+id/TextView_holdings_amount"
-            android:layout_below="@+id/TextView_holdings_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?attr/textAppearanceListItem"/>
-
-    </RelativeLayout>
-
-</LinearLayout>

@@ -1,4 +1,4 @@
-package fragment;
+package com.clearbox.stockfolio.adapter;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,7 +28,7 @@ public class MyStockItemRecyclerViewAdapter extends RecyclerView.Adapter<MyStock
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_portfolio, parent, false);
+                .inflate(R.layout.list_item_portfolio, parent, false);
         return new ViewHolder(view);
     }
 

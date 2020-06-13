@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.AddAssetFragment">
+
+    <EditText
+        android:id="@+id/EditText_Search"
+        android:drawableStart="@android:drawable/ic_menu_search"
+        android:drawableLeft="@android:drawable/ic_menu_search"
+        android:drawablePadding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Asset Name Here i.e. BTC, SPY"
+        android:inputType="text"
+        android:maxLines="1">
+    </EditText>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RecyclerView_Add_Asset"
+        android:name="com.clearbox.stockfolio.fragment.AddAssetFragment"
+        android:layout_below="@+id/EditText_Search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        app:layoutManager="LinearLayoutManager"
+        tools:listitem="@layout/list_item_add_asset" />
+
+</RelativeLayout>
+
