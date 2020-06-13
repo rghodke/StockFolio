@@ -33,4 +33,25 @@
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/RelativeLayout_holdings_info_holder"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/text_margin">
+
+        <TextView
+            android:id="@+id/TextView_holdings_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceListItem"/>
+
+        <TextView
+            android:id="@+id/TextView_holdings_amount"
+            android:layout_below="@+id/TextView_holdings_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceListItem"/>
+
+    </RelativeLayout>
+
 </LinearLayout>

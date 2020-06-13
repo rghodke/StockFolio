@@ -38,6 +38,8 @@ public class MyStockItemRecyclerViewAdapter extends RecyclerView.Adapter<MyStock
         holder.mTextViewStockName.setText(mValues.get(position).id);
         holder.mTextViewCurrentPrice.setText(mValues.get(position).content);
         holder.mTextViewPriceDelta.setText(mValues.get(position).content);
+        holder.mTextViewHoldingsPrice.setText(mValues.get(position).content);
+        holder.mTextViewHoldingsAmount.setText(mValues.get(position).content);
     }
 
     @Override
@@ -50,6 +52,8 @@ public class MyStockItemRecyclerViewAdapter extends RecyclerView.Adapter<MyStock
         public final TextView mTextViewStockName;
         public final TextView mTextViewCurrentPrice;
         public final TextView mTextViewPriceDelta;
+        public final TextView mTextViewHoldingsPrice;
+        public final TextView mTextViewHoldingsAmount;
         public DummyItem mItem;
 
         public ViewHolder(View view) {
@@ -58,6 +62,8 @@ public class MyStockItemRecyclerViewAdapter extends RecyclerView.Adapter<MyStock
             mTextViewStockName = (TextView) view.findViewById(R.id.TextView_stock_name);
             mTextViewCurrentPrice = (TextView) view.findViewById(R.id.TextView_stock_price);
             mTextViewPriceDelta = (TextView) view.findViewById(R.id.TextView_stock_price_delta);
+            mTextViewHoldingsPrice = (TextView) view.findViewById(R.id.TextView_holdings_price);
+            mTextViewHoldingsAmount = (TextView) view.findViewById(R.id.TextView_holdings_amount);
         }
 
         @Override
