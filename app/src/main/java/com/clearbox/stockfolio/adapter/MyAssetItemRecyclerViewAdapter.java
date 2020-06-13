@@ -27,7 +27,7 @@ public class MyAssetItemRecyclerViewAdapter extends RecyclerView.Adapter<MyAsset
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_add_asset, parent, false);
+                .inflate(R.layout.list_item_add_asset, parent, false);
         return new ViewHolder(view);
     }
 
