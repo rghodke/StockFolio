@@ -48,15 +48,15 @@ public class PortfolioFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_portfolio_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_portfolio, container, false);
+        setupViews(view);
 
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(new MyStockItemRecyclerViewAdapter(DummyContent.ITEMS));
-        }
         return view;
+    }
+
+    private void setupViews(View view) {
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.RecyclerView_Portfolio);
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        recyclerView.setAdapter(new MyStockItemRecyclerViewAdapter(DummyContent.ITEMS));
     }
 }

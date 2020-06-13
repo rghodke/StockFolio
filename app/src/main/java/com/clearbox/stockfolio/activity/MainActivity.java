@@ -31,17 +31,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViews() {
         mFragmentHolder = findViewById(R.id.FrameLayout_fragment_holder);
-        mAddTransaction = findViewById(R.id.ImageButton_Add_Transaction);
-
-        mAddTransaction.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToAddTransactionFragment();
-            }
-        });
     }
 
-    private void goToAddTransactionFragment() {
+    private void goToAddTransactionFragment(View view) {
         //Create a fragment if not already created
         if (mAddAssetFragment == null) {
             mAddAssetFragment = AddAssetFragment.newInstance();
