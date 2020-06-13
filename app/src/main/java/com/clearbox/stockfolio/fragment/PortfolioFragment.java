@@ -37,19 +37,12 @@ public class PortfolioFragment extends Fragment {
     @SuppressWarnings("unused")
     public static PortfolioFragment newInstance() {
         PortfolioFragment fragment = new PortfolioFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, 1);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }
     }
 
     @Override
@@ -61,11 +54,7 @@ public class PortfolioFragment extends Fragment {
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
             recyclerView.setAdapter(new fragment.MyStockItemRecyclerViewAdapter(DummyContent.ITEMS));
         }
         return view;

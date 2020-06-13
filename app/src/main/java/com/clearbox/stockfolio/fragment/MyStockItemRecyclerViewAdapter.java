@@ -35,8 +35,9 @@ public class MyStockItemRecyclerViewAdapter extends RecyclerView.Adapter<MyStock
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mTextViewStockName.setText(mValues.get(position).id);
+        holder.mTextViewCurrentPrice.setText(mValues.get(position).content);
+        holder.mTextViewPriceDelta.setText(mValues.get(position).content);
     }
 
     @Override
@@ -46,20 +47,22 @@ public class MyStockItemRecyclerViewAdapter extends RecyclerView.Adapter<MyStock
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
+        public final TextView mTextViewStockName;
+        public final TextView mTextViewCurrentPrice;
+        public final TextView mTextViewPriceDelta;
         public DummyItem mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.item_number);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mTextViewStockName = (TextView) view.findViewById(R.id.TextView_stock_name);
+            mTextViewCurrentPrice = (TextView) view.findViewById(R.id.TextView_stock_price);
+            mTextViewPriceDelta = (TextView) view.findViewById(R.id.TextView_stock_price_delta);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + mTextViewStockName.getText() + "'";
         }
     }
 }
