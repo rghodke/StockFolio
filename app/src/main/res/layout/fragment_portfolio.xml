@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:weightSum="1000"
     android:orientation="horizontal">
 
     <TextView
         android:id="@+id/TextView_stock_name"
-        android:layout_width="wrap_content"
+        android:layout_weight="250"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
         android:layout_margin="@dimen/text_margin"
@@ -14,7 +16,8 @@
 
     <RelativeLayout
         android:id="@+id/RelativeLayout_stock_price_holder"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="350"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin">
 
@@ -35,7 +38,8 @@
 
     <RelativeLayout
         android:id="@+id/RelativeLayout_holdings_info_holder"
-        android:layout_width="wrap_content"
+        android:layout_weight="300"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/text_margin">
 
