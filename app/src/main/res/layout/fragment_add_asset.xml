@@ -27,7 +27,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         app:layoutManager="LinearLayoutManager"
-        tools:listitem="@layout/list_item_add_asset" />
+        tools:listitem="@layout/list_item_finnhub_asset" />
 
 </RelativeLayout>
 

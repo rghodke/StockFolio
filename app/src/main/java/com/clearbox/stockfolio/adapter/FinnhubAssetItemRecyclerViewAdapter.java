@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.clearbox.stockfolio.R;
 import com.clearbox.stockfolio.fragment.dummy.DummyContent.DummyItem;
+import com.clearbox.stockfolio.network.model.FinnhubAsset;
 
 import java.util.List;
 
@@ -16,38 +17,44 @@ import java.util.List;
  * {@link RecyclerView.Adapter} that can display a {@link DummyItem}.
  * TODO: Replace the implementation with code for your data type.
  */
-public class MyAssetItemRecyclerViewAdapter extends RecyclerView.Adapter<MyAssetItemRecyclerViewAdapter.ViewHolder> {
+public class FinnhubAssetItemRecyclerViewAdapter extends RecyclerView.Adapter<FinnhubAssetItemRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<FinnhubAsset> mAssets;
 
-    public MyAssetItemRecyclerViewAdapter(List<DummyItem> items) {
-        mValues = items;
+    public FinnhubAssetItemRecyclerViewAdapter(List<FinnhubAsset> items) {
+        mAssets = items;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item_add_asset, parent, false);
+                .inflate(R.layout.list_item_finnhub_asset, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mItem = mAssets.get(position);
+        holder.mIdView.setText(mAssets.get(position).symbol);
+        holder.mContentView.setText(mAssets.get(position).description);
     }
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return mAssets.size();
+    }
+
+    public void setData(List<FinnhubAsset> finnhubAssets) {
+        mAssets.clear();
+        mAssets.addAll(finnhubAssets);
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
-        public DummyItem mItem;
+        public FinnhubAsset mItem;
 
         public ViewHolder(View view) {
             super(view);

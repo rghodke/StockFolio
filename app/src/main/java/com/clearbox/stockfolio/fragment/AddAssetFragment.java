@@ -4,8 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,13 +14,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.clearbox.stockfolio.R;
-import com.clearbox.stockfolio.adapter.MyAssetItemRecyclerViewAdapter;
+import com.clearbox.stockfolio.adapter.FinnhubAssetItemRecyclerViewAdapter;
 import com.clearbox.stockfolio.application.StockfolioApplication;
 import com.clearbox.stockfolio.fragment.dummy.DummyContent;
+import com.clearbox.stockfolio.network.model.FinnhubAsset;
 import com.clearbox.stockfolio.viewmodel.StockfolioViewModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A fragment representing a list of Items.
@@ -28,6 +31,7 @@ import com.clearbox.stockfolio.viewmodel.StockfolioViewModel;
 public class AddAssetFragment extends Fragment {
 
     private StockfolioViewModel mModel;
+    private FinnhubAssetItemRecyclerViewAdapter mAssetAdapter;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -54,18 +58,29 @@ public class AddAssetFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_add_asset, container, false);
         setupViews(view);
 
-        if (getActivity() != null)
-            mModel = ViewModelProviders.of(getActivity()).get(StockfolioViewModel.class);
-
         return view;
     }
 
     private void setupViews(View view) {
         final Context context = view.getContext();
 
+        mAssetAdapter = new FinnhubAssetItemRecyclerViewAdapter(new ArrayList<>());
+
+        if (getActivity() != null)
+            mModel = ViewModelProviders.of(getActivity()).get(StockfolioViewModel.class);
+
+        if (mModel != null) {
+            mModel.getAssets().observe(this, new Observer<List<FinnhubAsset>>() {
+                @Override
+                public void onChanged(List<FinnhubAsset> finnhubAssets) {
+                    mAssetAdapter.setData(finnhubAssets);
+                }
+            });
+        }
+
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.RecyclerView_Add_Asset);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        recyclerView.setAdapter(new MyAssetItemRecyclerViewAdapter(DummyContent.ITEMS));
+        recyclerView.setAdapter(mAssetAdapter);
 
         final EditText mSearchEditText = view.findViewById(R.id.EditText_Search);
         mSearchEditText.requestFocus();
