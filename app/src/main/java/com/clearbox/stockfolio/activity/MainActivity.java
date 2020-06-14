@@ -1,6 +1,7 @@
 package com.clearbox.stockfolio.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +14,7 @@ import com.clearbox.stockfolio.fragment.*;
 import com.clearbox.stockfolio.network.FinnhubApiClient;
 import com.clearbox.stockfolio.network.FinnhubService;
 import com.clearbox.stockfolio.network.model.FinnhubResponse;
+import com.clearbox.stockfolio.viewmodel.StockfolioViewModel;
 
 import javax.inject.Inject;
 
@@ -31,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageButton mAddTransaction;
 
+    private StockfolioViewModel mModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,25 +42,10 @@ public class MainActivity extends AppCompatActivity {
 
         StockfolioApplication.getStockfolioComponent().inject(this);
 
+        mModel = ViewModelProviders.of(this).get(StockfolioViewModel.class);
+
         setupViews();
         setupPortfolioFragment();
-
-        mFinnhubApiClient.getUser("defunkt").subscribe(new Subscriber<FinnhubResponse>() {
-            @Override
-            public void onCompleted() {
-                System.out.println("MainActivity.onCompleted");
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onNext(FinnhubResponse s) {
-                System.out.println("s = " + s.getLogin());
-            }
-        });
     }
 
     private void setupViews() {
