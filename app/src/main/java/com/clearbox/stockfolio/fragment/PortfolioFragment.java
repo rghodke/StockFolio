@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import com.clearbox.stockfolio.R;
 import com.clearbox.stockfolio.adapter.MyStockItemRecyclerViewAdapter;
 import com.clearbox.stockfolio.viewmodel.StockfolioViewModel;
+import com.clearbox.stockfolio.application.StockfolioApplication;
 
 import fragment.dummy.DummyContent;
 
@@ -23,11 +24,6 @@ import fragment.dummy.DummyContent;
  */
 public class PortfolioFragment extends Fragment {
 
-    // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
-    private int mColumnCount = 1;
-
     private StockfolioViewModel mModel;
 
     /**
@@ -35,6 +31,7 @@ public class PortfolioFragment extends Fragment {
      * fragment (e.g. upon screen orientation changes).
      */
     public PortfolioFragment() {
+        StockfolioApplication.getStockfolioComponent().inject(this);
     }
 
     // TODO: Customize parameter initialization

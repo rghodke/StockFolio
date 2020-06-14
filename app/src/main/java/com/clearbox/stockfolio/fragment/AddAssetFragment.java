@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.clearbox.stockfolio.R;
 import com.clearbox.stockfolio.adapter.MyAssetItemRecyclerViewAdapter;
+import com.clearbox.stockfolio.application.StockfolioApplication;
 import com.clearbox.stockfolio.fragment.dummy.DummyContent;
 import com.clearbox.stockfolio.viewmodel.StockfolioViewModel;
 
@@ -33,6 +34,7 @@ public class AddAssetFragment extends Fragment {
      * fragment (e.g. upon screen orientation changes).
      */
     public AddAssetFragment() {
+        StockfolioApplication.getStockfolioComponent().inject(this);
     }
 
     @SuppressWarnings("unused")
