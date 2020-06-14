@@ -12,9 +12,11 @@ import com.clearbox.stockfolio.R;
 import com.clearbox.stockfolio.application.StockfolioApplication;
 import com.clearbox.stockfolio.fragment.*;
 import com.clearbox.stockfolio.network.FinnhubApiClient;
-import com.clearbox.stockfolio.network.FinnhubService;
-import com.clearbox.stockfolio.network.model.FinnhubResponse;
+import com.clearbox.stockfolio.network.model.FinnhubAsset;
+import com.clearbox.stockfolio.network.model.FinnhubAssetListResponse;
 import com.clearbox.stockfolio.viewmodel.StockfolioViewModel;
+
+import java.util.List;
 
 import javax.inject.Inject;
 

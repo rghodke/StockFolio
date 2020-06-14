@@ -1,12 +1,13 @@
 package com.clearbox.stockfolio.network;
 
 import com.clearbox.stockfolio.application.StockfolioApplication;
-import com.clearbox.stockfolio.network.model.FinnhubResponse;
+import com.clearbox.stockfolio.network.model.FinnhubAsset;
+import com.clearbox.stockfolio.network.model.FinnhubAssetListResponse;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
-import retrofit.RestAdapter;
-import retrofit.http.Path;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
@@ -21,16 +22,16 @@ public class FinnhubApiClient {
         StockfolioApplication.getStockfolioComponent().inject(this);
     }
 
-    public Observable<FinnhubResponse> getUser(String user) {
-        final Observable<FinnhubResponse> getUserObservable =
-        mFinnhubService.groupList("defunkt")
-                .flatMap(new Func1<FinnhubResponse, Observable<? extends FinnhubResponse>>() {
+    public Observable<List<FinnhubAsset>> loadAssets(String exchange) {
+        final Observable<List<FinnhubAsset>> getAssetsObservable =
+        mFinnhubService.assetList(exchange)
+                .flatMap(new Func1<List<FinnhubAsset>, Observable<? extends List<FinnhubAsset>>>() {
                     @Override
-                    public Observable<? extends FinnhubResponse> call(FinnhubResponse s) {
+                    public Observable<? extends List<FinnhubAsset>> call(List<FinnhubAsset> s) {
                         return Observable.just(s);
                     }
                 });
 
-        return getUserObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        return getAssetsObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 }

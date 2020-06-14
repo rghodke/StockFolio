@@ -6,7 +6,10 @@ import androidx.lifecycle.ViewModel;
 
 import com.clearbox.stockfolio.application.StockfolioApplication;
 import com.clearbox.stockfolio.network.FinnhubApiClient;
-import com.clearbox.stockfolio.network.model.FinnhubResponse;
+import com.clearbox.stockfolio.network.model.FinnhubAsset;
+import com.clearbox.stockfolio.network.model.FinnhubAssetListResponse;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -17,8 +20,8 @@ public class StockfolioViewModel extends ViewModel {
     @Inject
     FinnhubApiClient mFinnhubApiClient;
 
-    private final MutableLiveData<FinnhubResponse> mSelectedRepo = new MutableLiveData<>();
-    private MutableLiveData<FinnhubResponse> mRepos;
+    private final MutableLiveData<FinnhubAsset> mSelectedFinnhubAsset = new MutableLiveData<>();
+    private MutableLiveData<List<FinnhubAsset>> mFinnhubAssets;
 //    private final MutableLiveData<GitHubIssue> mSelectedIssue = new MutableLiveData<>();
 //    private MutableLiveData<List<GitHubIssue>> mIssues;
 
@@ -26,20 +29,18 @@ public class StockfolioViewModel extends ViewModel {
         StockfolioApplication.getStockfolioComponent().inject(this);
     }
 
-    public LiveData<FinnhubResponse> getUser() {
-        if (mRepos == null) {
-            mRepos = new MutableLiveData<>();
-            loadUser();
+    public LiveData<List<FinnhubAsset>> getAssets() {
+        if (mFinnhubAssets == null) {
+            mFinnhubAssets = new MutableLiveData<>();
+            loadAssets();
         }
-        return mRepos;
+        return mFinnhubAssets;
     }
 
-    private void loadUser() {
-        mFinnhubApiClient.getUser("defunkt").subscribe(new Subscriber<FinnhubResponse>() {
+    private void loadAssets() {
+        mFinnhubApiClient.loadAssets("US").subscribe(new Subscriber<List<FinnhubAsset>>() {
             @Override
-            public void onCompleted() {
-
-            }
+            public void onCompleted() {}
 
             @Override
             public void onError(Throwable e) {
@@ -47,20 +48,16 @@ public class StockfolioViewModel extends ViewModel {
             }
 
             @Override
-            public void onNext(FinnhubResponse s) {
-                System.out.println("s = " + s);
-                mRepos.setValue(s);
-            }
+            public void onNext(List<FinnhubAsset> s) { mFinnhubAssets.setValue(s); }
         });
-
     }
 
-    public void onRepoSelected(FinnhubResponse item) {
-        mSelectedRepo.setValue(item);
+    public void onRepoSelected(FinnhubAsset item) {
+        mSelectedFinnhubAsset.setValue(item);
     }
 
-    public LiveData<FinnhubResponse> getSelected() {
-        return mSelectedRepo;
+    public LiveData<FinnhubAsset> getSelected() {
+        return mSelectedFinnhubAsset;
     }
 
 //    public LiveData<List<GitHubIssue>> getRepos() {
