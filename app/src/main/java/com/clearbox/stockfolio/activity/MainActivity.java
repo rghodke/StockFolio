@@ -8,13 +8,20 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
 import com.clearbox.stockfolio.R;
+import com.clearbox.stockfolio.application.StockfolioApplication;
 import com.clearbox.stockfolio.fragment.*;
 import com.clearbox.stockfolio.network.FinnhubApiClient;
+import com.clearbox.stockfolio.network.FinnhubService;
 import com.clearbox.stockfolio.network.model.FinnhubResponse;
+
+import javax.inject.Inject;
 
 import rx.Subscriber;
 
 public class MainActivity extends AppCompatActivity {
+
+    @Inject
+    FinnhubApiClient mFinnhubApiClient;
 
     private static final String PORTFOLIO_FRAG = "PortfolioFragment";
     private static final String ADD_ASSET_FRAG = "AddAssetFragment";
@@ -29,10 +36,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        StockfolioApplication.getStockfolioComponent().inject(this);
+
         setupViews();
         setupPortfolioFragment();
 
-        FinnhubApiClient.getApiClient().getUser("defunkt").subscribe(new Subscriber<FinnhubResponse>() {
+        mFinnhubApiClient.getUser("defunkt").subscribe(new Subscriber<FinnhubResponse>() {
             @Override
             public void onCompleted() {
                 System.out.println("MainActivity.onCompleted");
