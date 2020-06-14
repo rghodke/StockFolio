@@ -11,6 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="250"
         android:layout_margin="@dimen/text_margin"
+        android:autoSizeTextType="uniform"
+        android:maxLines="1"
         android:textAppearance="?attr/textAppearanceListItem" />
 
     <TextView
@@ -19,6 +21,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="750"
         android:layout_margin="@dimen/text_margin"
+        android:autoSizeTextType="uniform"
+        android:maxLines="1"
         android:textAppearance="?attr/textAppearanceListItem" />
 
 </LinearLayout>
