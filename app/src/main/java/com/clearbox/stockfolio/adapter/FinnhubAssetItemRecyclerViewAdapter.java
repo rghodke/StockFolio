@@ -13,10 +13,6 @@ import com.clearbox.stockfolio.network.model.FinnhubAsset;
 
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem}.
- * TODO: Replace the implementation with code for your data type.
- */
 public class FinnhubAssetItemRecyclerViewAdapter extends RecyclerView.Adapter<FinnhubAssetItemRecyclerViewAdapter.ViewHolder> {
 
     private final List<FinnhubAsset> mAssets;
@@ -35,8 +31,8 @@ public class FinnhubAssetItemRecyclerViewAdapter extends RecyclerView.Adapter<Fi
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mAssets.get(position);
-        holder.mIdView.setText(mAssets.get(position).symbol);
-        holder.mContentView.setText(mAssets.get(position).description);
+        holder.mTextViewStockSymbol.setText(mAssets.get(position).symbol);
+        holder.mTextViewStockDescription.setText(mAssets.get(position).description);
     }
 
     @Override
@@ -52,20 +48,20 @@ public class FinnhubAssetItemRecyclerViewAdapter extends RecyclerView.Adapter<Fi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
+        public final TextView mTextViewStockSymbol;
+        public final TextView mTextViewStockDescription;
         public FinnhubAsset mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.item_number);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mTextViewStockSymbol = (TextView) view.findViewById(R.id.TextView_Stock_Symbol);
+            mTextViewStockDescription = (TextView) view.findViewById(R.id.TextView_Stock_Description);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + mTextViewStockDescription.getText() + "'";
         }
     }
 }
