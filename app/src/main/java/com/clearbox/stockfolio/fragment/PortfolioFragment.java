@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.clearbox.stockfolio.R;
 import com.clearbox.stockfolio.adapter.MyStockItemRecyclerViewAdapter;
+import com.clearbox.stockfolio.viewmodel.StockfolioViewModel;
 
 import fragment.dummy.DummyContent;
 
@@ -25,6 +27,8 @@ public class PortfolioFragment extends Fragment {
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
+
+    private StockfolioViewModel mModel;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -50,6 +54,9 @@ public class PortfolioFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_portfolio, container, false);
         setupViews(view);
+
+        if (getActivity() != null)
+            mModel = ViewModelProviders.of(getActivity()).get(StockfolioViewModel.class);
 
         return view;
     }
