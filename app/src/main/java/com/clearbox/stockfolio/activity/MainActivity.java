@@ -9,6 +9,10 @@ import android.widget.ImageButton;
 
 import com.clearbox.stockfolio.R;
 import com.clearbox.stockfolio.fragment.*;
+import com.clearbox.stockfolio.network.FinnhubApiClient;
+import com.clearbox.stockfolio.network.model.FinnhubResponse;
+
+import rx.Subscriber;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,6 +31,23 @@ public class MainActivity extends AppCompatActivity {
 
         setupViews();
         setupPortfolioFragment();
+
+        FinnhubApiClient.getApiClient().getUser("defunkt").subscribe(new Subscriber<FinnhubResponse>() {
+            @Override
+            public void onCompleted() {
+                System.out.println("MainActivity.onCompleted");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onNext(FinnhubResponse s) {
+                System.out.println("s = " + s.getLogin());
+            }
+        });
     }
 
     private void setupViews() {
