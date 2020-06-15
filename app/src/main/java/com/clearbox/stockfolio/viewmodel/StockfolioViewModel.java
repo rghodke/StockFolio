@@ -56,7 +56,7 @@ public class StockfolioViewModel extends ViewModel {
         mSelectedFinnhubAsset.setValue(item);
     }
 
-    public LiveData<FinnhubAsset> getSelected() {
+    public LiveData<FinnhubAsset> getSelectedAsset() {
         return mSelectedFinnhubAsset;
     }
 

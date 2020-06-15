@@ -36,6 +36,8 @@ public class AddAssetFragment extends Fragment {
         void onFinnhubAssetListItemClicked(FinnhubAsset item);
     }
 
+    private SearchView mSearchEditText;
+
     private StockfolioViewModel mModel;
     private FinnhubAssetItemRecyclerViewAdapter mAssetAdapter;
     private List<FinnhubAsset> mAssetList;
@@ -70,6 +72,7 @@ public class AddAssetFragment extends Fragment {
     }
 
     private void setupViews(View view) {
+        System.out.println("AddAssetFragment.setupViews");
         final Context context = view.getContext();
 
         mAssetAdapter = new FinnhubAssetItemRecyclerViewAdapter(new ArrayList<>(), mListener);
@@ -81,7 +84,7 @@ public class AddAssetFragment extends Fragment {
             mModel.getAssets().observe(this, new Observer<List<FinnhubAsset>>() {
                 @Override
                 public void onChanged(List<FinnhubAsset> finnhubAssets) {
-                    mAssetList = finnhubAssets;
+                    System.out.println("AddAssetFragment.onChanged 2");
                     mAssetAdapter.setData(finnhubAssets);
                 }
             });
@@ -91,7 +94,7 @@ public class AddAssetFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(mAssetAdapter);
 
-        final SearchView mSearchEditText = view.findViewById(R.id.SearchView_Asset);
+        mSearchEditText = view.findViewById(R.id.SearchView_Asset);
         mSearchEditText.onActionViewExpanded();
         mSearchEditText.postDelayed(new Runnable() {
             @Override
@@ -114,6 +117,20 @@ public class AddAssetFragment extends Fragment {
                 return false;
             }
         });
+    }
+
+    public void callSearch() {
+        if (mSearchEditText != null && mAssetAdapter != null) {
+            String query = mSearchEditText.getQuery().toString();
+            if (query != null && !query.isEmpty())
+                mAssetAdapter.getFilter().filter(mSearchEditText.getQuery());
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        callSearch();
     }
 
     @Override
