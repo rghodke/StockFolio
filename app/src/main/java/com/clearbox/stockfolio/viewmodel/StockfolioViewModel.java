@@ -52,7 +52,7 @@ public class StockfolioViewModel extends ViewModel {
         });
     }
 
-    public void onRepoSelected(FinnhubAsset item) {
+    public void onFinnhubAssetSelected(FinnhubAsset item) {
         mSelectedFinnhubAsset.setValue(item);
     }
 

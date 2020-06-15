@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.clearbox.stockfolio.R;
 
-import fragment.dummy.DummyContent.DummyItem;
+import com.clearbox.stockfolio.fragment.dummy.DummyContent.DummyItem;
 
 import java.util.List;
 

@@ -1,12 +1,15 @@
 package com.clearbox.stockfolio.activity;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.clearbox.stockfolio.R;
 import com.clearbox.stockfolio.application.StockfolioApplication;
@@ -22,16 +25,18 @@ import javax.inject.Inject;
 
 import rx.Subscriber;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AddAssetFragment.AddAssetFragmentInteractionListener {
 
     @Inject
     FinnhubApiClient mFinnhubApiClient;
 
     private static final String PORTFOLIO_FRAG = "PortfolioFragment";
     private static final String ADD_ASSET_FRAG = "AddAssetFragment";
+    private static final String ADD_TRANS_FRAG = "AddTransactionFragment";
     private FrameLayout mFragmentHolder;
     private PortfolioFragment mPortfolioFragment;
     private AddAssetFragment mAddAssetFragment;
+    private AddTransactionFragment mAddTransactionFragment;
 
     private ImageButton mAddTransaction;
 
@@ -69,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void goToAddTransactionFragment(View view) {
+    public void goToAddAssetFragment(View view) {
         //Create a fragment if not already created
         if (mAddAssetFragment == null) {
             mAddAssetFragment = AddAssetFragment.newInstance();
@@ -82,5 +87,29 @@ public class MainActivity extends AppCompatActivity {
         if (mFragmentHolder != null) {
             getSupportFragmentManager().beginTransaction().replace(mFragmentHolder.getId(), mAddAssetFragment).addToBackStack(ADD_ASSET_FRAG).commit();
         }
+    }
+
+    public void goToAddTransactionFragment() {
+        //Create a fragment if not already created
+        if (mAddTransactionFragment == null) {
+            mAddTransactionFragment = AddTransactionFragment.newInstance();
+        }
+
+        //Setup the fragment holder as necessary
+        if (mFragmentHolder == null) setupViews();
+
+        //Fail-safe null check
+        if (mFragmentHolder != null) {
+            getSupportFragmentManager().beginTransaction().replace(mFragmentHolder.getId(), mAddTransactionFragment).addToBackStack(ADD_TRANS_FRAG).commit();
+        }
+    }
+
+    @Override
+    public void onFinnhubAssetListItemClicked(final FinnhubAsset item) {
+        mModel.onFinnhubAssetSelected(item);
+
+        System.out.println(item.symbol);
+
+        goToAddTransactionFragment();
     }
 }

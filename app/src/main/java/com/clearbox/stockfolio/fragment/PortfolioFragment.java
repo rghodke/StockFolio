@@ -1,6 +1,5 @@
 package com.clearbox.stockfolio.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -17,7 +16,7 @@ import com.clearbox.stockfolio.adapter.MyStockItemRecyclerViewAdapter;
 import com.clearbox.stockfolio.viewmodel.StockfolioViewModel;
 import com.clearbox.stockfolio.application.StockfolioApplication;
 
-import fragment.dummy.DummyContent;
+import com.clearbox.stockfolio.fragment.dummy.DummyContent;
 
 /**
  * A fragment representing a list of Items.
