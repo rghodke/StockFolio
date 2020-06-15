@@ -1,29 +1,21 @@
 package com.clearbox.stockfolio.activity;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.clearbox.stockfolio.R;
 import com.clearbox.stockfolio.application.StockfolioApplication;
 import com.clearbox.stockfolio.fragment.*;
 import com.clearbox.stockfolio.network.FinnhubApiClient;
 import com.clearbox.stockfolio.network.model.FinnhubAsset;
-import com.clearbox.stockfolio.network.model.FinnhubAssetListResponse;
 import com.clearbox.stockfolio.viewmodel.StockfolioViewModel;
 
-import java.util.List;
-
 import javax.inject.Inject;
-
-import rx.Subscriber;
 
 public class MainActivity extends AppCompatActivity implements AddAssetFragment.AddAssetFragmentInteractionListener {
 
@@ -36,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements AddAssetFragment.
     private FrameLayout mFragmentHolder;
     private PortfolioFragment mPortfolioFragment;
     private AddAssetFragment mAddAssetFragment;
-    private AddTransactionFragment mAddTransactionFragment;
+    private AddAssetDetailFragment mAddAssetDetailFragment;
 
     private ImageButton mAddTransaction;
 
@@ -91,8 +83,8 @@ public class MainActivity extends AppCompatActivity implements AddAssetFragment.
 
     public void goToAddTransactionFragment() {
         //Create a fragment if not already created
-        if (mAddTransactionFragment == null) {
-            mAddTransactionFragment = AddTransactionFragment.newInstance();
+        if (mAddAssetDetailFragment == null) {
+            mAddAssetDetailFragment = AddAssetDetailFragment.newInstance();
         }
 
         //Setup the fragment holder as necessary
@@ -100,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements AddAssetFragment.
 
         //Fail-safe null check
         if (mFragmentHolder != null) {
-            getSupportFragmentManager().beginTransaction().replace(mFragmentHolder.getId(), mAddTransactionFragment).addToBackStack(ADD_TRANS_FRAG).commit();
+            getSupportFragmentManager().beginTransaction().replace(mFragmentHolder.getId(), mAddAssetDetailFragment).addToBackStack(ADD_TRANS_FRAG).commit();
         }
     }
 

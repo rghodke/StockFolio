@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 import com.clearbox.stockfolio.application.StockfolioApplication;
 import com.clearbox.stockfolio.network.FinnhubApiClient;
 import com.clearbox.stockfolio.network.model.FinnhubAsset;
+import com.clearbox.stockfolio.network.model.FinnhubAssetDetail;
 import com.clearbox.stockfolio.network.model.FinnhubAssetListResponse;
 
 import java.util.List;
@@ -20,8 +21,9 @@ public class StockfolioViewModel extends ViewModel {
     @Inject
     FinnhubApiClient mFinnhubApiClient;
 
-    private final MutableLiveData<FinnhubAsset> mSelectedFinnhubAsset = new MutableLiveData<>();
     private MutableLiveData<List<FinnhubAsset>> mFinnhubAssets;
+    private final MutableLiveData<FinnhubAsset> mSelectedFinnhubAsset = new MutableLiveData<>();
+    private final MutableLiveData<FinnhubAssetDetail> mFinnhubAssetDetail = new MutableLiveData<>();
 //    private final MutableLiveData<GitHubIssue> mSelectedIssue = new MutableLiveData<>();
 //    private MutableLiveData<List<GitHubIssue>> mIssues;
 
@@ -58,6 +60,32 @@ public class StockfolioViewModel extends ViewModel {
 
     public LiveData<FinnhubAsset> getSelectedAsset() {
         return mSelectedFinnhubAsset;
+    }
+
+    public LiveData<FinnhubAssetDetail> getFinnhubAssetDetail() {
+        if (mFinnhubAssetDetail == null) {
+            mFinnhubAssetDetail = new MutableLiveData<>();
+            loadFinnhubAssetDetail(getSelectedAsset().getValue());
+        }
+        return mFinnhubAssetDetail;
+    }
+
+    private void loadFinnhubAssetDetail(FinnhubAsset finnhubAsset) {
+        mFinnhubApiClient.loadAssets("US").subscribe(new Subscriber<List<FinnhubAsset>>() {
+            @Override
+            public void onCompleted() {}
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onNext(List<FinnhubAsset> s) { mFinnhubAssets.setValue(s); }
+        });
+    }
+    public LiveData<FinnhubAssetDetail> getFinnhubAssetDetail() {
+        return mFinnhubAssetDetail;
     }
 
 //    public LiveData<List<GitHubIssue>> getRepos() {
