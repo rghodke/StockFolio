@@ -5,19 +5,24 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.clearbox.stockfolio.R;
 import com.clearbox.stockfolio.fragment.dummy.DummyContent.DummyItem;
 import com.clearbox.stockfolio.network.model.FinnhubAsset;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class FinnhubAssetItemRecyclerViewAdapter extends RecyclerView.Adapter<FinnhubAssetItemRecyclerViewAdapter.ViewHolder> {
+public class FinnhubAssetItemRecyclerViewAdapter extends RecyclerView.Adapter<FinnhubAssetItemRecyclerViewAdapter.ViewHolder> implements Filterable {
 
-    private final List<FinnhubAsset> mAssets;
+    private List<FinnhubAsset> mInitalAssets, mAssets;
 
     public FinnhubAssetItemRecyclerViewAdapter(List<FinnhubAsset> items) {
+        mInitalAssets = items;
         mAssets = items;
     }
 
@@ -41,9 +46,41 @@ public class FinnhubAssetItemRecyclerViewAdapter extends RecyclerView.Adapter<Fi
     }
 
     public void setData(List<FinnhubAsset> finnhubAssets) {
+        mInitalAssets.clear();
         mAssets.clear();
         mAssets.addAll(finnhubAssets);
         notifyDataSetChanged();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                FilterResults results = new FilterResults();
+                List<FinnhubAsset> FilteredArrayNames = new ArrayList<FinnhubAsset>();
+
+                // perform your search here using the searchConstraint String.
+                constraint = constraint.toString().toLowerCase();
+
+                for (int i = 0; i < mInitalAssets.size(); i++) {
+                    String stockSymbol = mInitalAssets.get(i).symbol;
+                    if (stockSymbol.toLowerCase().startsWith(constraint.toString().toLowerCase())) {
+                        FilteredArrayNames.add(mInitalAssets.get(i));
+                    }
+                }
+
+                results.count = FilteredArrayNames.size();
+                results.values = FilteredArrayNames;
+                return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                mAssets = (List<FinnhubAsset>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
