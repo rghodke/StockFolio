@@ -1,5 +1,7 @@
 package com.clearbox.stockfolio.viewmodel;
 
+import android.icu.util.TimeUnit;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -9,6 +11,7 @@ import com.clearbox.stockfolio.network.FinnhubApiClient;
 import com.clearbox.stockfolio.network.model.FinnhubAsset;
 import com.clearbox.stockfolio.network.model.FinnhubAssetCandleData;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -66,8 +69,13 @@ public class StockfolioViewModel extends ViewModel {
         return mFinnhubAssetCandleData;
     }
 
+    long ONE_DAY_IN_MILLIS = 86400000L;
+
     private void loadFinnhubAssetCandleData(FinnhubAsset finnhubAsset) {
-        mFinnhubApiClient.loadCandleData("AAPL", "1", "1572651390", "1572910590").subscribe(new Subscriber<FinnhubAssetCandleData>() {
+        //TODO: Get resolution from spinner
+        long currentUnixTime = System.currentTimeMillis()/1000L;
+        long fromUnixTime = (System.currentTimeMillis() - ONE_DAY_IN_MILLIS)/1000L; //Find out appropriate time from Spinner
+        mFinnhubApiClient.loadCandleData("AAPL", "30", String.valueOf(fromUnixTime), String.valueOf(currentUnixTime)).subscribe(new Subscriber<FinnhubAssetCandleData>() {
             @Override
             public void onCompleted() {}
 
