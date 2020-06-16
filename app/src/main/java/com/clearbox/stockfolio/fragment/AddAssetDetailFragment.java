@@ -40,6 +40,8 @@ import java.util.List;
  */
 public class AddAssetDetailFragment extends Fragment {
 
+    private Spinner mSpinner;
+
     public interface OnAddAssetDetailFragmentInteractionListener {
         void updateGraphAtInterval(int i);
 
@@ -82,9 +84,9 @@ public class AddAssetDetailFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_asset_detail, container, false);
 
-        setupData();
-
         setupViews(view);
+
+        setupData();
 
         return view;
     }
@@ -94,7 +96,7 @@ public class AddAssetDetailFragment extends Fragment {
             mModel = ViewModelProviders.of(getActivity()).get(StockfolioViewModel.class);
 
         if (mModel != null) {
-            mModel.getFinnhubAssetCandleData().observe(this, new Observer<FinnhubAssetCandleData>() {
+            mModel.getFinnhubAssetCandleData(2 ).observe(this, new Observer<FinnhubAssetCandleData>() {
                 @Override
                 public void onChanged(FinnhubAssetCandleData finnhubAssets) {
                     String status = finnhubAssets.s;
@@ -123,12 +125,13 @@ public class AddAssetDetailFragment extends Fragment {
         mAsk = view.findViewById(R.id.text_view_current_ask_price);
         m24Change = view.findViewById(R.id.text_view_24_hour_change);
 
-        Spinner spinner = view.findViewById(R.id.spinner_timeframe);
-        spinner.setSelection(2, true);
+        mSpinner = view.findViewById(R.id.spinner_timeframe);
+        mSpinner.setSelection(2, true);
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                mModel.getFinnhubAssetCandleData(i);
                 if (mListener != null) {
                     updateGraphInterval(i);
                 }

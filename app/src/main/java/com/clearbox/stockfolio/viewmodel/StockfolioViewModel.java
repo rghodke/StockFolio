@@ -64,18 +64,60 @@ public class StockfolioViewModel extends ViewModel {
         return mSelectedFinnhubAsset;
     }
 
-    public LiveData<FinnhubAssetCandleData> getFinnhubAssetCandleData() {
-        loadFinnhubAssetCandleData(getSelectedAsset().getValue());
+    public LiveData<FinnhubAssetCandleData> getFinnhubAssetCandleData(int timeWindow) {
+        if (getSelectedAsset() != null) {
+            if (getSelectedAsset().getValue() != null){
+                loadFinnhubAssetCandleData(getSelectedAsset().getValue(), timeWindow);
+            }
+        }
         return mFinnhubAssetCandleData;
     }
 
     long ONE_DAY_IN_MILLIS = 86400000L;
 
-    private void loadFinnhubAssetCandleData(FinnhubAsset finnhubAsset) {
+    private void loadFinnhubAssetCandleData(FinnhubAsset finnhubAsset, int timeWindow) {
         //TODO: Get resolution from spinner
         long currentUnixTime = System.currentTimeMillis()/1000L;
-        long fromUnixTime = (System.currentTimeMillis() - ONE_DAY_IN_MILLIS)/1000L; //Find out appropriate time from Spinner
-        mFinnhubApiClient.loadCandleData("AAPL", "30", String.valueOf(fromUnixTime), String.valueOf(currentUnixTime)).subscribe(new Subscriber<FinnhubAssetCandleData>() {
+        long fromUnixTime = (System.currentTimeMillis() - ONE_DAY_IN_MILLIS)/1000L; //Default to 1D
+        String resolution = "30"; //default to 30 mins
+        switch (timeWindow) {
+            case 0: //1H
+                resolution = "5";
+                fromUnixTime = (System.currentTimeMillis() - (ONE_DAY_IN_MILLIS/24))/1000L; //Divide by 24 for 1 hr
+                break;
+            case 1: //12H
+                resolution = "15";
+                fromUnixTime = (System.currentTimeMillis() - (ONE_DAY_IN_MILLIS/2))/1000L; //Divide by 2 for 12 hr
+                break;
+            case 2: //1D
+                resolution = "30";
+                fromUnixTime = (System.currentTimeMillis() - (ONE_DAY_IN_MILLIS/1))/1000L; //Divide by 1 for 24 hr
+                break;
+            case 3: //3D
+                resolution = "60";
+                fromUnixTime = (System.currentTimeMillis() - (ONE_DAY_IN_MILLIS * 3))/1000L; //Multiply by 3 for 3 days
+                break;
+            case 4: //1W
+                resolution = "D";
+                fromUnixTime = (System.currentTimeMillis() - (ONE_DAY_IN_MILLIS * 7))/1000L; //Multiply by 7 for 7 days
+                break;
+            case 5: //1M
+                resolution = "D";
+                fromUnixTime = (System.currentTimeMillis() - (ONE_DAY_IN_MILLIS * 30))/1000L; //Multiply by 30 for 30 days
+                break;
+            case 6: //3M
+                resolution = "W";
+                fromUnixTime = (System.currentTimeMillis() - (ONE_DAY_IN_MILLIS * 90))/1000L; //Multiply by 90 for 90 days
+                break;
+            case 7: //6M
+                resolution = "W";
+                fromUnixTime = (System.currentTimeMillis() - (ONE_DAY_IN_MILLIS * 180))/1000L; //Multiply by 180 for 180 days
+                break;
+            default:
+                break;
+        }
+
+        mFinnhubApiClient.loadCandleData(finnhubAsset.symbol, resolution, String.valueOf(fromUnixTime), String.valueOf(currentUnixTime)).subscribe(new Subscriber<FinnhubAssetCandleData>() {
             @Override
             public void onCompleted() {}
 
