@@ -64,7 +64,6 @@ public class StockfolioViewModel extends ViewModel {
 
     public LiveData<FinnhubAssetDetail> getFinnhubAssetDetail() {
         if (mFinnhubAssetDetail == null) {
-            mFinnhubAssetDetail = new MutableLiveData<>();
             loadFinnhubAssetDetail(getSelectedAsset().getValue());
         }
         return mFinnhubAssetDetail;
@@ -84,7 +83,7 @@ public class StockfolioViewModel extends ViewModel {
             public void onNext(List<FinnhubAsset> s) { mFinnhubAssets.setValue(s); }
         });
     }
-    public LiveData<FinnhubAssetDetail> getFinnhubAssetDetail() {
+    public LiveData<FinnhubAssetDetail> getFinnhubAssetDetailSelected() {
         return mFinnhubAssetDetail;
     }
 

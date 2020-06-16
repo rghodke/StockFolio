@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -17,7 +18,7 @@ import com.clearbox.stockfolio.viewmodel.StockfolioViewModel;
 
 import javax.inject.Inject;
 
-public class MainActivity extends AppCompatActivity implements AddAssetFragment.AddAssetFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements AddAssetFragment.AddAssetFragmentInteractionListener, AddAssetDetailFragment.OnAddAssetDetailFragmentInteractionListener {
 
     @Inject
     FinnhubApiClient mFinnhubApiClient;
@@ -103,5 +104,63 @@ public class MainActivity extends AppCompatActivity implements AddAssetFragment.
         System.out.println(item.symbol);
 
         goToAddTransactionFragment();
+    }
+
+    @Override
+    public void updateGraphAtInterval(int i) {
+//        if (mCoinGraph != null) mCoinGraph.removeCallbacksAndMessages(null);
+        updateCoinGraph(i);
+    }
+
+    @Override
+    public void startCoinGraphDataService() {
+        updateCoinGraph(2); //Default is 1 day
+    }
+
+    private void updateCoinGraph(final int i) {
+//        //Every second get the newest info about the coin you want
+//        //Reset handler if already running
+//        if (mCoinGraph != null) mCoinGraph.removeCallbacksAndMessages(null);
+//        mCoinGraph = new Handler();
+//        final int delay = 1000; //milliseconds
+//
+//        mCoinGraph.postDelayed(new Runnable() {
+//            public void run() {
+//                mService.getMarketDataForCurrency();
+//                mService.getUSDTBTCPrice();
+//                //do something
+//                switch (i) {
+//                    case 0:
+//                        mService.getMinuteDataForOneHour();
+//                        break;
+//                    case 1:
+//                        mService.getHalfHourDataForPast12Hours();
+//                        break;
+//                    case 2:
+//                        mService.getHourlyDataForPast24Hours();
+//                        break;
+//                    case 3:
+//                        mService.getThreeHourlyDataForPast3Days();
+//                        break;
+//                    case 4:
+//                        mService.getSixHourlyDataForPast1Week();
+//                        break;
+//                    case 5:
+//                        mService.getDailyDataForPast1Month();
+//                        break;
+//                    case 6:
+//                        mService.getThreeDaysDataForPast3Month();
+//                        break;
+//                    case 7:
+//                        mService.getWeeklyDataForPast6Month();
+//                        break;
+//                    default:
+//                        mService.getHourlyDataForPast24Hours();
+//                        break;
+//                }
+//                mCoinGraph.postDelayed(this, delay);
+//
+//            }
+//        }, delay);
     }
 }
