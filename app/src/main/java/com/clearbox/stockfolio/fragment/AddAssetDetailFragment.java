@@ -176,6 +176,7 @@ public class AddAssetDetailFragment extends Fragment {
             }
             String units = "USDT";
             LineDataSet dataSetBTC = new LineDataSet(entriesUnits, units); // add entriesUnits to dataset
+            dataSetBTC.setDrawCircles(false);
 //        LineDataSet dataSetUSDT = new LineDataSet(entriesUSDT, "USDT"); // add entriesUnits to dataset
 //        dataSetBTC.setColor();
 //        dataSetBTC.setValueTextColor(...); // styling, ...
