@@ -100,9 +100,6 @@ public class MainActivity extends AppCompatActivity implements AddAssetFragment.
     @Override
     public void onFinnhubAssetListItemClicked(final FinnhubAsset item) {
         mModel.onFinnhubAssetSelected(item);
-
-        System.out.println(item.symbol);
-
         goToAddTransactionFragment();
     }
 

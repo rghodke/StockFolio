@@ -168,19 +168,19 @@ public class AddAssetDetailFragment extends Fragment {
         try {
             int minSize = 0;
             minSize = Math.min(candleData.c.size(), candleData.t.size());
-            long firstMilli = candleData.t.get(0).longValue();
             for (int i = 0; i < minSize; i++) {
-                long millis = candleData.t.get(i).longValue() - firstMilli;
+                long millis = candleData.t.get(i).longValue();
                 float close = candleData.c.get(i).floatValue();
                 entriesUnits.add(new Entry(millis, close));
             }
-            String units = "USDT";
+            String units = "USD";
             LineDataSet dataSetBTC = new LineDataSet(entriesUnits, units); // add entriesUnits to dataset
             dataSetBTC.setDrawCircles(false);
 //        LineDataSet dataSetUSDT = new LineDataSet(entriesUSDT, "USDT"); // add entriesUnits to dataset
 //        dataSetBTC.setColor();
 //        dataSetBTC.setValueTextColor(...); // styling, ...
             LineData lineData = new LineData(dataSetBTC);
+            mChart.getLegend().setEnabled(false);
             mChart.setData(lineData);
             mChart.invalidate();
             mChart.notifyDataSetChanged();

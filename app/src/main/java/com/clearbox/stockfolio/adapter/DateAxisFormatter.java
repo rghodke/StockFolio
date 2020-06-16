@@ -6,12 +6,13 @@ import com.github.mikephil.charting.formatter.ValueFormatter;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by ghodk on 1/15/2018.
  */
 
-public class DateAxisFormatter extends ValueFormatter implements IAxisValueFormatter {
+public class DateAxisFormatter extends ValueFormatter {
 
     private int interval;
 
@@ -24,37 +25,26 @@ public class DateAxisFormatter extends ValueFormatter implements IAxisValueForma
     }
 
     @Override
-    public String getFormattedValue(float value, AxisBase axis) {
+    public String getFormattedValue(float value) {
         long millis = (long) value;
         String time;
         switch (interval) {
             case 0:
-                time = new SimpleDateFormat("HH:MM").format(new Date(millis * 1000L));
-                break;
             case 1:
-                time = new SimpleDateFormat("HH:MM").format(new Date(millis * 1000L));
-                break;
             case 2:
-                time = new SimpleDateFormat("HH:MM").format(new Date(millis * 1000L));
+                time = new SimpleDateFormat("HH:MM", Locale.US).format(new Date(millis * 1000L));
                 break;
             case 3:
-                time = new SimpleDateFormat("MM/dd").format(new Date(millis * 1000L));
-                break;
             case 4:
-                time = new SimpleDateFormat("MM/dd").format(new Date(millis * 1000L));
-                break;
             case 5:
-                time = new SimpleDateFormat("MM/dd").format(new Date(millis * 1000L));
+                time = new SimpleDateFormat("MM/dd", Locale.US).format(new Date(millis * 1000L));
                 break;
             case 6:
-                time = new SimpleDateFormat("MM/yyyy").format(new Date(millis * 1000L));
-                break;
             case 7:
-                time = new SimpleDateFormat("MM/yyyy").format(new Date(millis * 1000L));
-                ;
+                time = new SimpleDateFormat("MM/yyyy", Locale.US).format(new Date(millis * 1000L));
                 break;
             default:
-                time = new SimpleDateFormat("HH:MM").format(new Date(millis * 1000L));
+                time = new SimpleDateFormat("HH:MM", Locale.US).format(new Date(millis * 1000L));
                 break;
         }
         return time;

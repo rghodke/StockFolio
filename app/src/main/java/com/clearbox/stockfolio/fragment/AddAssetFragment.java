@@ -72,7 +72,6 @@ public class AddAssetFragment extends Fragment {
     }
 
     private void setupViews(View view) {
-        System.out.println("AddAssetFragment.setupViews");
         final Context context = view.getContext();
 
         mAssetAdapter = new FinnhubAssetItemRecyclerViewAdapter(new ArrayList<>(), mListener);
@@ -84,7 +83,6 @@ public class AddAssetFragment extends Fragment {
             mModel.getAssets().observe(this, new Observer<List<FinnhubAsset>>() {
                 @Override
                 public void onChanged(List<FinnhubAsset> finnhubAssets) {
-                    System.out.println("AddAssetFragment.onChanged 2");
                     mAssetAdapter.setData(finnhubAssets);
                 }
             });
