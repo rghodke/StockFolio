@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.view.LayoutInflater;
@@ -15,6 +16,8 @@ import android.widget.TextView;
 
 import com.clearbox.stockfolio.R;
 import com.clearbox.stockfolio.adapter.DateAxisFormatter;
+import com.clearbox.stockfolio.network.model.FinnhubAsset;
+import com.clearbox.stockfolio.network.model.FinnhubAssetCandleData;
 import com.clearbox.stockfolio.viewmodel.StockfolioViewModel;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -79,18 +82,32 @@ public class AddAssetDetailFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_asset_detail, container, false);
 
+        setupData();
+
         setupViews(view);
 
+        return view;
+    }
+
+    private void setupData() {
         if (getActivity() != null)
             mModel = ViewModelProviders.of(getActivity()).get(StockfolioViewModel.class);
 
         if (mModel != null)
             System.out.println("mModel = " + mModel.getSelectedAsset().getValue().description);
 
-        return view;
+        if (mModel != null) {
+            mModel.getFinnhubAssetCandleData().observe(this, new Observer<FinnhubAssetCandleData>() {
+                @Override
+                public void onChanged(FinnhubAssetCandleData finnhubAssets) {
+                    System.out.println("AddAssetFragment.onChanged 2");
+                }
+            });
+        }
     }
 
     private void setupViews(View view) {
+
         //Set-up graph
         mChart = (LineChart) view.findViewById(R.id.chart);
         mChart.setDescription(null);

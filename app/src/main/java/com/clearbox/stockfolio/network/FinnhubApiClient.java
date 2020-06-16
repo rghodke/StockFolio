@@ -1,7 +1,10 @@
 package com.clearbox.stockfolio.network;
 
+import android.media.browse.MediaBrowser;
+
 import com.clearbox.stockfolio.application.StockfolioApplication;
 import com.clearbox.stockfolio.network.model.FinnhubAsset;
+import com.clearbox.stockfolio.network.model.FinnhubAssetCandleData;
 import com.clearbox.stockfolio.network.model.FinnhubAssetListResponse;
 
 import java.util.List;
@@ -33,5 +36,18 @@ public class FinnhubApiClient {
                 });
 
         return getAssetsObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<FinnhubAssetCandleData> loadCandleData(String symbol, String resolution, String from, String to) {
+        final Observable<FinnhubAssetCandleData> getCandleDataObservable =
+                mFinnhubService.candleData(symbol, resolution, from, to)
+                        .flatMap(new Func1<FinnhubAssetCandleData, Observable<? extends FinnhubAssetCandleData>>() {
+                            @Override
+                            public Observable<? extends FinnhubAssetCandleData> call(FinnhubAssetCandleData s) {
+                                return Observable.just(s);
+                            }
+                        });
+
+        return getCandleDataObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 }

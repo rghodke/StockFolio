@@ -7,8 +7,7 @@ import androidx.lifecycle.ViewModel;
 import com.clearbox.stockfolio.application.StockfolioApplication;
 import com.clearbox.stockfolio.network.FinnhubApiClient;
 import com.clearbox.stockfolio.network.model.FinnhubAsset;
-import com.clearbox.stockfolio.network.model.FinnhubAssetDetail;
-import com.clearbox.stockfolio.network.model.FinnhubAssetListResponse;
+import com.clearbox.stockfolio.network.model.FinnhubAssetCandleData;
 
 import java.util.List;
 
@@ -23,7 +22,7 @@ public class StockfolioViewModel extends ViewModel {
 
     private MutableLiveData<List<FinnhubAsset>> mFinnhubAssets;
     private final MutableLiveData<FinnhubAsset> mSelectedFinnhubAsset = new MutableLiveData<>();
-    private final MutableLiveData<FinnhubAssetDetail> mFinnhubAssetDetail = new MutableLiveData<>();
+    private final MutableLiveData<FinnhubAssetCandleData> mFinnhubAssetCandleData = new MutableLiveData<>();
 //    private final MutableLiveData<GitHubIssue> mSelectedIssue = new MutableLiveData<>();
 //    private MutableLiveData<List<GitHubIssue>> mIssues;
 
@@ -62,15 +61,13 @@ public class StockfolioViewModel extends ViewModel {
         return mSelectedFinnhubAsset;
     }
 
-    public LiveData<FinnhubAssetDetail> getFinnhubAssetDetail() {
-        if (mFinnhubAssetDetail == null) {
-            loadFinnhubAssetDetail(getSelectedAsset().getValue());
-        }
-        return mFinnhubAssetDetail;
+    public LiveData<FinnhubAssetCandleData> getFinnhubAssetCandleData() {
+        loadFinnhubAssetCandleData(getSelectedAsset().getValue());
+        return mFinnhubAssetCandleData;
     }
 
-    private void loadFinnhubAssetDetail(FinnhubAsset finnhubAsset) {
-        mFinnhubApiClient.loadAssets("US").subscribe(new Subscriber<List<FinnhubAsset>>() {
+    private void loadFinnhubAssetCandleData(FinnhubAsset finnhubAsset) {
+        mFinnhubApiClient.loadCandleData("AAPL", "1", "1572651390", "1572910590").subscribe(new Subscriber<FinnhubAssetCandleData>() {
             @Override
             public void onCompleted() {}
 
@@ -80,11 +77,11 @@ public class StockfolioViewModel extends ViewModel {
             }
 
             @Override
-            public void onNext(List<FinnhubAsset> s) { mFinnhubAssets.setValue(s); }
+            public void onNext(FinnhubAssetCandleData s) { mFinnhubAssetCandleData.setValue(s); }
         });
     }
-    public LiveData<FinnhubAssetDetail> getFinnhubAssetDetailSelected() {
-        return mFinnhubAssetDetail;
+    public LiveData<FinnhubAssetCandleData> getFinnhubAssetDetailSelected() {
+        return mFinnhubAssetCandleData;
     }
 
 //    public LiveData<List<GitHubIssue>> getRepos() {
