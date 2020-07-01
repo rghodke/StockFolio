@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Stockfolio</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="label_timeframe">Timeframe</string>
+    <string name="label_24_hour_high">24 Hour High</string>
+    <string name="label_current_bid_price">Current Bid Price</string>
+    <string name="label_24_hour_volume">24 Hour Volume</string>
+    <string name="label_24_hour_low">24 Hour Low</string>
+    <string name="label_current_ask_price">Current Ask Price</string>
+    <string name="label_24_hour_change">24 Hour Change</string>
+    <string name="label_high">High</string>
+    <string name="label_low">Low</string>
+    <string name="label_price_change">Price Change</string>
 </resources>

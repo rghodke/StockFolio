@@ -10,7 +10,7 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.clearbox.stockfolio.R;
-import com.clearbox.stockfolio.fragment.dummy.DummyContent.DummyItem;
+import com.clearbox.stockfolio.fragment.AddAssetFragment;
 import com.clearbox.stockfolio.network.model.FinnhubAsset;
 
 import java.util.ArrayList;
@@ -20,10 +20,12 @@ import java.util.List;
 public class FinnhubAssetItemRecyclerViewAdapter extends RecyclerView.Adapter<FinnhubAssetItemRecyclerViewAdapter.ViewHolder> implements Filterable {
 
     private List<FinnhubAsset> mInitalAssets, mAssets;
+    private AddAssetFragment.AddAssetFragmentInteractionListener mListener;
 
-    public FinnhubAssetItemRecyclerViewAdapter(List<FinnhubAsset> items) {
+    public FinnhubAssetItemRecyclerViewAdapter(List<FinnhubAsset> items, AddAssetFragment.AddAssetFragmentInteractionListener listener) {
         mInitalAssets = items;
         mAssets = items;
+        mListener = listener;
     }
 
     @Override
@@ -38,6 +40,17 @@ public class FinnhubAssetItemRecyclerViewAdapter extends RecyclerView.Adapter<Fi
         holder.mItem = mAssets.get(position);
         holder.mTextViewStockSymbol.setText(mAssets.get(position).symbol);
         holder.mTextViewStockDescription.setText(mAssets.get(position).description);
+
+        holder.mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (null != mListener) {
+                    // Notify the active callbacks interface (the activity, if the
+                    // fragment is attached to one) that an item has been selected.
+                    mListener.onFinnhubAssetListItemClicked(holder.mItem);
+                }
+            }
+        });
     }
 
     @Override

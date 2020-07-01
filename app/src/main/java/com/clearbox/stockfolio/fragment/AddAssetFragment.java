@@ -32,9 +32,16 @@ import java.util.List;
  */
 public class AddAssetFragment extends Fragment {
 
+    public interface AddAssetFragmentInteractionListener {
+        void onFinnhubAssetListItemClicked(FinnhubAsset item);
+    }
+
+    private SearchView mSearchEditText;
+
     private StockfolioViewModel mModel;
     private FinnhubAssetItemRecyclerViewAdapter mAssetAdapter;
     private List<FinnhubAsset> mAssetList;
+    private AddAssetFragmentInteractionListener mListener;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -67,7 +74,7 @@ public class AddAssetFragment extends Fragment {
     private void setupViews(View view) {
         final Context context = view.getContext();
 
-        mAssetAdapter = new FinnhubAssetItemRecyclerViewAdapter(new ArrayList<>());
+        mAssetAdapter = new FinnhubAssetItemRecyclerViewAdapter(new ArrayList<>(), mListener);
 
         if (getActivity() != null)
             mModel = ViewModelProviders.of(getActivity()).get(StockfolioViewModel.class);
@@ -76,7 +83,6 @@ public class AddAssetFragment extends Fragment {
             mModel.getAssets().observe(this, new Observer<List<FinnhubAsset>>() {
                 @Override
                 public void onChanged(List<FinnhubAsset> finnhubAssets) {
-                    mAssetList = finnhubAssets;
                     mAssetAdapter.setData(finnhubAssets);
                 }
             });
@@ -86,7 +92,7 @@ public class AddAssetFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(mAssetAdapter);
 
-        final SearchView mSearchEditText = view.findViewById(R.id.SearchView_Asset);
+        mSearchEditText = view.findViewById(R.id.SearchView_Asset);
         mSearchEditText.onActionViewExpanded();
         mSearchEditText.postDelayed(new Runnable() {
             @Override
@@ -105,12 +111,41 @@ public class AddAssetFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                System.out.println("newText = " + newText);
                 mAssetAdapter.getFilter().filter(newText);
                 return false;
             }
         });
+    }
 
+    public void callSearch() {
+        if (mSearchEditText != null && mAssetAdapter != null) {
+            String query = mSearchEditText.getQuery().toString();
+            if (query != null && !query.isEmpty())
+                mAssetAdapter.getFilter().filter(mSearchEditText.getQuery());
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        callSearch();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof AddAssetFragmentInteractionListener) {
+            mListener = (AddAssetFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement AddAssetFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 
 }
