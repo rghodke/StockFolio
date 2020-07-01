@@ -96,7 +96,7 @@ public class AddAssetDetailFragment extends Fragment {
             mModel.getFinnhubAssetCandleData(2 ).observe(this, new Observer<FinnhubAssetCandleData>() {
                 @Override
                 public void onChanged(FinnhubAssetCandleData finnhubAssets) {
-                    String status = finnhubAssets.s;
+                    String status = finnhubAssets.status;
                     if (status != null && status.equalsIgnoreCase("ok")) {
                         updateGraph(finnhubAssets);
                     } else {
@@ -179,10 +179,10 @@ public class AddAssetDetailFragment extends Fragment {
         List<Entry> entriesUnits = new ArrayList<Entry>();
         try {
             int minSize = 0;
-            minSize = Math.min(candleData.c.size(), candleData.t.size());
+            minSize = Math.min(candleData.close.size(), candleData.time.size());
             for (int i = 0; i < minSize; i++) {
-                long millis = candleData.t.get(i).longValue();
-                float close = candleData.c.get(i).floatValue();
+                long millis = candleData.time.get(i).longValue();
+                float close = candleData.close.get(i).floatValue();
                 mHigh = Math.max(mHigh, close);
                 mLow = Math.max(mLow, close);
                 entriesUnits.add(new Entry(millis, close));

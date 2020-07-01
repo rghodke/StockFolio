@@ -6,6 +6,7 @@ import com.clearbox.stockfolio.application.StockfolioApplication;
 import com.clearbox.stockfolio.network.model.FinnhubAsset;
 import com.clearbox.stockfolio.network.model.FinnhubAssetCandleData;
 import com.clearbox.stockfolio.network.model.FinnhubAssetListResponse;
+import com.clearbox.stockfolio.network.model.FinnhubAssetStockData;
 
 import java.util.List;
 

@@ -10,6 +10,7 @@ import com.clearbox.stockfolio.application.StockfolioApplication;
 import com.clearbox.stockfolio.network.FinnhubApiClient;
 import com.clearbox.stockfolio.network.model.FinnhubAsset;
 import com.clearbox.stockfolio.network.model.FinnhubAssetCandleData;
+import com.clearbox.stockfolio.network.model.FinnhubAssetStockData;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -25,6 +26,7 @@ public class StockfolioViewModel extends ViewModel {
 
     private MutableLiveData<List<FinnhubAsset>> mFinnhubAssets;
     private final MutableLiveData<FinnhubAsset> mSelectedFinnhubAsset = new MutableLiveData<>();
+    private final MutableLiveData<FinnhubAssetStockData> mFinnhubAssetStockData = new MutableLiveData<>();
     private final MutableLiveData<FinnhubAssetCandleData> mFinnhubAssetCandleData = new MutableLiveData<>();
 //    private final MutableLiveData<GitHubIssue> mSelectedIssue = new MutableLiveData<>();
 //    private MutableLiveData<List<GitHubIssue>> mIssues;
@@ -74,7 +76,7 @@ public class StockfolioViewModel extends ViewModel {
     }
 
     private void loadFinnhubAssetStockData(FinnhubAsset finnhubAsset) {
-        mFinnhubApiClient.loadAssetData(finnhubAsset.symbol).subscribe(new Subscriber<FinnhubAssetStockData>() {
+        mFinnhubApiClient.loadStockData(finnhubAsset.symbol).subscribe(new Subscriber<FinnhubAssetStockData>() {
             @Override
             public void onCompleted() {}
 
