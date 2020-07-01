@@ -258,7 +258,7 @@
             <!--            android:id="@+id/Spinner_Order_Type"-->
             <!--            android:layout_width="wrap_content"-->
             <!--            android:layout_height="wrap_content" />-->
-            <EditText
+            <com.clearbox.stockfolio.customview.NoBackEditText
                 android:id="@+id/EditText_Quantity"
                 android:layout_alignParentTop="true"
                 android:hint="TEXT"

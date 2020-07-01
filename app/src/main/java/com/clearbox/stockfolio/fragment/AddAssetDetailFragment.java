@@ -10,7 +10,9 @@ import androidx.lifecycle.ViewModelProviders;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -50,6 +52,7 @@ public class AddAssetDetailFragment extends Fragment {
     private LineChart mChart;
     private boolean mNewGraph;
     private TextView mTextViewHigh, mBid, m24Volume, mTextViewLow, mAsk, m24Change, mTextViewStockPrice, mTextViewStockPriceDelta;
+    private EditText mEditTextQuantity;
 
     private float mLow, mHigh;
 
@@ -129,6 +132,9 @@ public class AddAssetDetailFragment extends Fragment {
         xAxis.setValueFormatter(new DateAxisFormatter(2));
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
+        mEditTextQuantity = view.findViewById(R.id.EditText_Quantity);
+        showKeyboardForEditTextQuantity();
+
         mTextViewStockPrice = view.findViewById(R.id.TextView_stock_price);
         mTextViewStockPrice.setText("999");
         mTextViewStockPriceDelta = view.findViewById(R.id.TextView_stock_price_delta);
@@ -161,6 +167,16 @@ public class AddAssetDetailFragment extends Fragment {
         });
     }
 
+    private void showKeyboardForEditTextQuantity() {
+        //Request focus and open keyboard
+        if (mEditTextQuantity != null && getActivity() != null) {
+            mEditTextQuantity.requestFocus();
+            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(mEditTextQuantity.getWindowToken(), 0);
+            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+        }
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -170,6 +186,12 @@ public class AddAssetDetailFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnAddAssetDetailFragmentInteractionListener");
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        showKeyboardForEditTextQuantity();
     }
 
     private void updateGraphInterval(int i) {
