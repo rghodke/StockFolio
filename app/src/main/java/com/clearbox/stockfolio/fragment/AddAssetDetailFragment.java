@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.clearbox.stockfolio.R;
 import com.clearbox.stockfolio.adapter.DateAxisFormatter;
 import com.clearbox.stockfolio.network.model.FinnhubAssetCandleData;
+import com.clearbox.stockfolio.network.model.FinnhubAssetStockData;
 import com.clearbox.stockfolio.viewmodel.StockfolioViewModel;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -24,6 +25,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,7 +108,15 @@ public class AddAssetDetailFragment extends Fragment {
             });
 
             //Data for the current ask and bid
-            mModel.getFinnhubStockData().observe
+            mModel.getFinnhubStockData().observe(this, new Observer<FinnhubAssetStockData>() {
+                @Override
+                public void onChanged(FinnhubAssetStockData candleData) {
+                    mTextViewStockPrice.setText(String.valueOf(candleData.current));
+                    DecimalFormat format = new DecimalFormat("##.00");
+                    Double percentChange = ((candleData.current - candleData.previousClose) / candleData.previousClose) * 100; //TODO: NEW API CALL FOR 24 HRS AGO Change
+                    mTextViewStockPriceDelta.setText(format.format(percentChange)+"%");
+                }
+            });
         }
     }
 

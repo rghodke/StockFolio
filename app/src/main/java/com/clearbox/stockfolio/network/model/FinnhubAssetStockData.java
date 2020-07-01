@@ -15,7 +15,7 @@ import java.util.List;
     @SerializedName("l")
     public Double low;
     @SerializedName("c")
-    public Double close;
+    public Double current;
     @SerializedName("pc")
     public Double previousClose;
     @SerializedName("t")

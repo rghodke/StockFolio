@@ -66,13 +66,13 @@ public class StockfolioViewModel extends ViewModel {
         return mSelectedFinnhubAsset;
     }
 
-    public LiveData<FinnhubAssetCandleData> getFinnhubStockData() {
+    public LiveData<FinnhubAssetStockData> getFinnhubStockData() {
         if (getSelectedAsset() != null) {
             if (getSelectedAsset().getValue() != null){
                 loadFinnhubAssetStockData(getSelectedAsset().getValue());
             }
         }
-        return mFinnhubAssetCandleData;
+        return mFinnhubAssetStockData;
     }
 
     private void loadFinnhubAssetStockData(FinnhubAsset finnhubAsset) {

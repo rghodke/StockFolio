@@ -8,7 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="15"
+        android:layout_weight="10"
         android:weightSum="100"
         android:orientation="horizontal">
         <TextView
@@ -57,12 +57,12 @@
         android:id="@+id/chart"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="50" />
+        android:layout_weight="40" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="28">
+        android:layout_weight="43">
 
         <LinearLayout
             android:id="@+id/LinearLayout_Stock_Details_Top"
@@ -156,6 +156,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/LinearLayout_Stock_Details_Btm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/LinearLayout_Stock_Details_Top"
@@ -247,6 +248,46 @@
 
         </LinearLayout>
 
-    </RelativeLayout>
+        <RelativeLayout
+            android:layout_below="@+id/LinearLayout_Stock_Details_Btm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
+            <!--        TODO: Implement BUY/SELL/SHORT SELL-->
+            <!--        <Spinner-->
+            <!--            android:id="@+id/Spinner_Order_Type"-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="wrap_content" />-->
+            <EditText
+                android:id="@+id/EditText_Quantity"
+                android:layout_alignParentTop="true"
+                android:hint="TEXT"
+                android:inputType="number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <RelativeLayout
+                android:id="@+id/RelativeLayout_buy_sell_holder"
+                android:layout_below="@+id/EditText_Quantity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/Button_Buy"
+                    android:text="BUY"
+                    android:layout_alignParentStart="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true" />
+
+                <Button
+                    android:id="@+id/Button_Sell"
+                    android:text="SELL"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
 </LinearLayout>
