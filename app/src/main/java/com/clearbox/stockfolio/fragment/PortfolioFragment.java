@@ -49,17 +49,18 @@ public class PortfolioFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_portfolio, container, false);
-        setupViews(view);
 
         if (getActivity() != null)
             mModel = ViewModelProviders.of(getActivity()).get(StockfolioViewModel.class);
 
+        setupViews(view);
+        
         return view;
     }
 
     private void setupViews(View view) {
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.RecyclerView_Portfolio);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        recyclerView.setAdapter(new MyStockItemRecyclerViewAdapter(DummyContent.ITEMS));
+        recyclerView.setAdapter(new MyStockItemRecyclerViewAdapter(mModel.getHeldAssets()));
     }
 }

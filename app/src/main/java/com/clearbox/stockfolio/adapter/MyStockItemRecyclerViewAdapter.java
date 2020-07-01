@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.clearbox.stockfolio.R;
 
 import com.clearbox.stockfolio.fragment.dummy.DummyContent.DummyItem;
+import com.clearbox.stockfolio.model.HeldAsset;
 
 import java.util.List;
 
@@ -19,9 +20,9 @@ import java.util.List;
  */
 public class MyStockItemRecyclerViewAdapter extends RecyclerView.Adapter<MyStockItemRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<HeldAsset> mValues;
 
-    public MyStockItemRecyclerViewAdapter(List<DummyItem> items) {
+    public MyStockItemRecyclerViewAdapter(List<HeldAsset> items) {
         mValues = items;
     }
 
@@ -35,11 +36,11 @@ public class MyStockItemRecyclerViewAdapter extends RecyclerView.Adapter<MyStock
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mTextViewStockName.setText(mValues.get(position).id);
-        holder.mTextViewCurrentPrice.setText(mValues.get(position).content);
-        holder.mTextViewPriceDelta.setText(mValues.get(position).content);
-        holder.mTextViewHoldingsPrice.setText(mValues.get(position).content);
-        holder.mTextViewHoldingsAmount.setText(mValues.get(position).content);
+        holder.mTextViewStockName.setText(mValues.get(position).symbol);
+        holder.mTextViewCurrentPrice.setText(mValues.get(position).symbol);
+        holder.mTextViewPriceDelta.setText(mValues.get(position).symbol);
+        holder.mTextViewHoldingsPrice.setText(mValues.get(position).symbol);
+        holder.mTextViewHoldingsAmount.setText(String.valueOf(mValues.get(position).quantity));
     }
 
     @Override
@@ -54,7 +55,7 @@ public class MyStockItemRecyclerViewAdapter extends RecyclerView.Adapter<MyStock
         public final TextView mTextViewPriceDelta;
         public final TextView mTextViewHoldingsPrice;
         public final TextView mTextViewHoldingsAmount;
-        public DummyItem mItem;
+        public HeldAsset mItem;
 
         public ViewHolder(View view) {
             super(view);
