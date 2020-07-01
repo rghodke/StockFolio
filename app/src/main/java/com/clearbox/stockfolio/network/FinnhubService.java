@@ -14,6 +14,9 @@ import rx.Observable;
 
 public interface FinnhubService {
 
+    @GET("/quote")
+    Observable<FinnhubAssetStockData> stockData(@Query("symbol") String symbol);
+
     @GET("/stock/symbol")
     Observable<List<FinnhubAsset>> assetList(@Query("exchange") String exchange);
 

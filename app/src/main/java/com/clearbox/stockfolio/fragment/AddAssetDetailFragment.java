@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.clearbox.stockfolio.R;
 import com.clearbox.stockfolio.adapter.DateAxisFormatter;
-import com.clearbox.stockfolio.network.model.FinnhubAsset;
 import com.clearbox.stockfolio.network.model.FinnhubAssetCandleData;
 import com.clearbox.stockfolio.viewmodel.StockfolioViewModel;
 import com.github.mikephil.charting.charts.LineChart;
@@ -25,11 +24,6 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +47,9 @@ public class AddAssetDetailFragment extends Fragment {
 
     private LineChart mChart;
     private boolean mNewGraph;
-    private TextView m24High, mBid, m24Volume, m24Low, mAsk, m24Change;
+    private TextView mTextViewHigh, mBid, m24Volume, mTextViewLow, mAsk, m24Change, mTextViewStockPrice, mTextViewStockPriceDelta;
+
+    private float mLow, mHigh;
 
     private OnAddAssetDetailFragmentInteractionListener mListener;
 
@@ -96,15 +92,21 @@ public class AddAssetDetailFragment extends Fragment {
             mModel = ViewModelProviders.of(getActivity()).get(StockfolioViewModel.class);
 
         if (mModel != null) {
+            //Data for the graph
             mModel.getFinnhubAssetCandleData(2 ).observe(this, new Observer<FinnhubAssetCandleData>() {
                 @Override
                 public void onChanged(FinnhubAssetCandleData finnhubAssets) {
                     String status = finnhubAssets.s;
                     if (status != null && status.equalsIgnoreCase("ok")) {
                         updateGraph(finnhubAssets);
+                    } else {
+                        updateGraph(null);
                     }
                 }
             });
+
+            //Data for the current ask and bid
+            mModel.getFinnhubStockData().observe
         }
     }
 
@@ -117,13 +119,18 @@ public class AddAssetDetailFragment extends Fragment {
         xAxis.setValueFormatter(new DateAxisFormatter(2));
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
-        m24High = view.findViewById(R.id.text_view_24_high);
-        mBid = view.findViewById(R.id.text_view_current_bid_price);
-        m24Volume = view.findViewById(R.id.text_view_24_hour_volume);
+        mTextViewStockPrice = view.findViewById(R.id.TextView_stock_price);
+        mTextViewStockPrice.setText("999");
+        mTextViewStockPriceDelta = view.findViewById(R.id.TextView_stock_price_delta);
+        mTextViewStockPriceDelta.setText("0.111%");
 
-        m24Low = view.findViewById(R.id.text_view_24_low);
-        mAsk = view.findViewById(R.id.text_view_current_ask_price);
-        m24Change = view.findViewById(R.id.text_view_24_hour_change);
+        mTextViewHigh = view.findViewById(R.id.TextView_high_price);
+        mBid = view.findViewById(R.id.TextView_current_bid_price);
+        m24Volume = view.findViewById(R.id.TextView_24_hour_volume);
+
+        mTextViewLow = view.findViewById(R.id.TextView_low_price);
+        mAsk = view.findViewById(R.id.TextView_current_ask_price);
+        m24Change = view.findViewById(R.id.TextView_price_change);
 
         mSpinner = view.findViewById(R.id.spinner_timeframe);
         mSpinner.setSelection(2, true);
@@ -164,6 +171,11 @@ public class AddAssetDetailFragment extends Fragment {
 
     public void updateGraph(FinnhubAssetCandleData candleData) {
         mNewGraph = true;
+        if (candleData == null) {
+            mChart.setData(null);
+            mChart.invalidate();
+            mChart.notifyDataSetChanged();
+        }
         List<Entry> entriesUnits = new ArrayList<Entry>();
         try {
             int minSize = 0;
@@ -171,6 +183,8 @@ public class AddAssetDetailFragment extends Fragment {
             for (int i = 0; i < minSize; i++) {
                 long millis = candleData.t.get(i).longValue();
                 float close = candleData.c.get(i).floatValue();
+                mHigh = Math.max(mHigh, close);
+                mLow = Math.max(mLow, close);
                 entriesUnits.add(new Entry(millis, close));
             }
             String units = "USD";
@@ -180,6 +194,7 @@ public class AddAssetDetailFragment extends Fragment {
 //        dataSetBTC.setColor();
 //        dataSetBTC.setValueTextColor(...); // styling, ...
             LineData lineData = new LineData(dataSetBTC);
+            updateStats();
             mChart.getLegend().setEnabled(false);
             mChart.setData(lineData);
             mChart.invalidate();
@@ -189,37 +204,39 @@ public class AddAssetDetailFragment extends Fragment {
         }
     }
 
-        public void updateStats (String coinData){
-            try {
-                JSONObject coinDataJSON = new JSONObject(coinData);
-                JSONArray coinDataArray = coinDataJSON.getJSONArray("result");
-                if (coinDataArray.length() > 0) {
-                    coinDataJSON = coinDataArray.getJSONObject(0);
-                    double high = coinDataJSON.getDouble("High");
-                    double bid = coinDataJSON.getDouble("Bid");
-                    double volume = coinDataJSON.getDouble("Volume");
-                    double low = coinDataJSON.getDouble("Low");
-                    double ask = coinDataJSON.getDouble("Ask");
-                    String currency = "$";
-                    String decimalFormat = "#.00";
-                    DecimalFormat df = new DecimalFormat(decimalFormat);
-                    String _24HourHighStr = currency + df.format(high);
-                    m24High.setText(_24HourHighStr);
-                    String bidStr = currency + df.format(bid);
-                    mBid.setText(bidStr);
-                    String _24HourVolumeStr = currency + new DecimalFormat("#.##").format(volume);
-                    m24Volume.setText(_24HourVolumeStr);
-                    String _24HourLowStr = currency + df.format(low);
-                    m24Low.setText(_24HourLowStr);
-                    String askStr = currency + df.format(ask);
-                    mAsk.setText(askStr);
-                    double change = (coinDataJSON.getDouble("Last") / coinDataJSON.getDouble("PrevDay")) - 1;
-                    change *= 100;
-                    String _24HourChange = (new DecimalFormat("#.##").format(change)) + "%";
-                    m24Change.setText(_24HourChange);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+        public void updateStats () {
+        mTextViewHigh.setText(String.valueOf(mHigh));
+        mTextViewLow.setText(String.valueOf(mLow));
+//            try {
+//                JSONObject coinDataJSON = new JSONObject(coinData);
+//                JSONArray coinDataArray = coinDataJSON.getJSONArray("result");
+//                if (coinDataArray.length() > 0) {
+//                    coinDataJSON = coinDataArray.getJSONObject(0);
+//                    double high = coinDataJSON.getDouble("High");
+//                    double bid = coinDataJSON.getDouble("Bid");
+//                    double volume = coinDataJSON.getDouble("Volume");
+//                    double low = coinDataJSON.getDouble("Low");
+//                    double ask = coinDataJSON.getDouble("Ask");
+//                    String currency = "$";
+//                    String decimalFormat = "#.00";
+//                    DecimalFormat df = new DecimalFormat(decimalFormat);
+//                    String _24HourHighStr = currency + df.format(high);
+//                    m24High.setText(_24HourHighStr);
+//                    String bidStr = currency + df.format(bid);
+//                    mBid.setText(bidStr);
+//                    String _24HourVolumeStr = currency + new DecimalFormat("#.##").format(volume);
+//                    m24Volume.setText(_24HourVolumeStr);
+//                    String _24HourLowStr = currency + df.format(low);
+//                    m24Low.setText(_24HourLowStr);
+//                    String askStr = currency + df.format(ask);
+//                    mAsk.setText(askStr);
+//                    double change = (coinDataJSON.getDouble("Last") / coinDataJSON.getDouble("PrevDay")) - 1;
+//                    change *= 100;
+//                    String _24HourChange = (new DecimalFormat("#.##").format(change)) + "%";
+//                    m24Change.setText(_24HourChange);
+//                }
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
         }
     }

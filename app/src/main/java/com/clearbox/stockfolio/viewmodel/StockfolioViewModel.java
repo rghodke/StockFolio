@@ -64,6 +64,30 @@ public class StockfolioViewModel extends ViewModel {
         return mSelectedFinnhubAsset;
     }
 
+    public LiveData<FinnhubAssetCandleData> getFinnhubStockData() {
+        if (getSelectedAsset() != null) {
+            if (getSelectedAsset().getValue() != null){
+                loadFinnhubAssetStockData(getSelectedAsset().getValue());
+            }
+        }
+        return mFinnhubAssetCandleData;
+    }
+
+    private void loadFinnhubAssetStockData(FinnhubAsset finnhubAsset) {
+        mFinnhubApiClient.loadAssetData(finnhubAsset.symbol).subscribe(new Subscriber<FinnhubAssetStockData>() {
+            @Override
+            public void onCompleted() {}
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onNext(FinnhubAssetStockData s) { mFinnhubAssetStockData.setValue(s); }
+        });
+    }
+
     public LiveData<FinnhubAssetCandleData> getFinnhubAssetCandleData(int timeWindow) {
         if (getSelectedAsset() != null) {
             if (getSelectedAsset().getValue() != null){
@@ -130,6 +154,7 @@ public class StockfolioViewModel extends ViewModel {
             public void onNext(FinnhubAssetCandleData s) { mFinnhubAssetCandleData.setValue(s); }
         });
     }
+
     public LiveData<FinnhubAssetCandleData> getFinnhubAssetDetailSelected() {
         return mFinnhubAssetCandleData;
     }

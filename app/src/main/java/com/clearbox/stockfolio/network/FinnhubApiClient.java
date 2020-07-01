@@ -50,4 +50,17 @@ public class FinnhubApiClient {
 
         return getCandleDataObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
+
+    public Observable<FinnhubAssetStockData> loadStockData(String symbol) {
+        final Observable<FinnhubAssetStockData> getStockDataObservable =
+                mFinnhubService.stockData(symbol)
+                        .flatMap(new Func1<FinnhubAssetStockData, Observable<? extends FinnhubAssetStockData>>() {
+                            @Override
+                            public Observable<? extends FinnhubAssetStockData> call(FinnhubAssetStockData s) {
+                                return Observable.just(s);
+                            }
+                        });
+
+        return getStockDataObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
 }
