@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -44,8 +45,9 @@ public class AddAssetDetailFragment extends Fragment {
         void updateGraphAtInterval(int i);
 
         void startCoinGraphDataService();
-    }
 
+        void goToPortfolioFragment();
+    }
 
     private StockfolioViewModel mModel;
 
@@ -53,6 +55,8 @@ public class AddAssetDetailFragment extends Fragment {
     private boolean mNewGraph;
     private TextView mTextViewHigh, mBid, m24Volume, mTextViewLow, mAsk, m24Change, mTextViewStockPrice, mTextViewStockPriceDelta;
     private EditText mEditTextQuantity;
+
+    private Button mButtonBuy, mButtonSell;
 
     private float mLow, mHigh;
 
@@ -124,7 +128,6 @@ public class AddAssetDetailFragment extends Fragment {
     }
 
     private void setupViews(View view) {
-
         //Set-up graph
         mChart = (LineChart) view.findViewById(R.id.chart);
         mChart.setDescription(null);
@@ -136,9 +139,7 @@ public class AddAssetDetailFragment extends Fragment {
         showKeyboardForEditTextQuantity();
 
         mTextViewStockPrice = view.findViewById(R.id.TextView_stock_price);
-        mTextViewStockPrice.setText("999");
         mTextViewStockPriceDelta = view.findViewById(R.id.TextView_stock_price_delta);
-        mTextViewStockPriceDelta.setText("0.111%");
 
         mTextViewHigh = view.findViewById(R.id.TextView_high_price);
         mBid = view.findViewById(R.id.TextView_current_bid_price);
@@ -150,7 +151,6 @@ public class AddAssetDetailFragment extends Fragment {
 
         mSpinner = view.findViewById(R.id.spinner_timeframe);
         mSpinner.setSelection(2, true);
-
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -163,6 +163,29 @@ public class AddAssetDetailFragment extends Fragment {
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
+            }
+        });
+
+        mButtonBuy = view.findViewById(R.id.Button_Buy);
+        mButtonBuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mModel != null) {
+                    mModel.addTransaction(Double.valueOf(mEditTextQuantity.getText().toString()));
+                }
+
+                mListener.goToPortfolioFragment();
+            }
+        });
+        mButtonSell = view.findViewById(R.id.Button_Sell);
+        mButtonSell.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mModel != null) {
+                    mModel.addTransaction(-1 * Double.valueOf(mEditTextQuantity.getText().toString()));
+
+                    mListener.goToPortfolioFragment();
+                }
             }
         });
     }

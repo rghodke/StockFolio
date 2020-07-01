@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -45,14 +44,15 @@ public class MainActivity extends AppCompatActivity implements AddAssetFragment.
         mModel = ViewModelProviders.of(this).get(StockfolioViewModel.class);
 
         setupViews();
-        setupPortfolioFragment();
+        goToPortfolioFragment();
     }
 
     private void setupViews() {
         mFragmentHolder = findViewById(R.id.FrameLayout_fragment_holder);
     }
 
-    private void setupPortfolioFragment() {
+    @Override
+    public void goToPortfolioFragment() {
         //Create a fragment if not already created
         if (mPortfolioFragment == null) {
             mPortfolioFragment = PortfolioFragment.newInstance();

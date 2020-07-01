@@ -7,12 +7,14 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.clearbox.stockfolio.application.StockfolioApplication;
+import com.clearbox.stockfolio.model.HeldAsset;
 import com.clearbox.stockfolio.network.FinnhubApiClient;
 import com.clearbox.stockfolio.network.model.FinnhubAsset;
 import com.clearbox.stockfolio.network.model.FinnhubAssetCandleData;
 import com.clearbox.stockfolio.network.model.FinnhubAssetStockData;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -28,6 +30,7 @@ public class StockfolioViewModel extends ViewModel {
     private final MutableLiveData<FinnhubAsset> mSelectedFinnhubAsset = new MutableLiveData<>();
     private final MutableLiveData<FinnhubAssetStockData> mFinnhubAssetStockData = new MutableLiveData<>();
     private final MutableLiveData<FinnhubAssetCandleData> mFinnhubAssetCandleData = new MutableLiveData<>();
+    private static final List<HeldAsset> mHeldAssets = new ArrayList<>();
 //    private final MutableLiveData<GitHubIssue> mSelectedIssue = new MutableLiveData<>();
 //    private MutableLiveData<List<GitHubIssue>> mIssues;
 
@@ -159,6 +162,24 @@ public class StockfolioViewModel extends ViewModel {
 
     public LiveData<FinnhubAssetCandleData> getFinnhubAssetDetailSelected() {
         return mFinnhubAssetCandleData;
+    }
+
+    public List<HeldAsset> getHeldAssets(){
+        return mHeldAssets;
+    }
+
+    public void addTransaction(Double quantity) {
+        boolean found = false;
+        for (HeldAsset heldAsset : mHeldAssets) {
+            if (heldAsset.symbol.equalsIgnoreCase(getSelectedAsset().getValue().symbol)) {
+                found = true;
+                heldAsset.quantity = heldAsset.quantity + quantity;
+            }
+        }
+
+        if (!found) {
+            mHeldAssets.add(new HeldAsset(getSelectedAsset().getValue().symbol, quantity));
+        }
     }
 
 //    public LiveData<List<GitHubIssue>> getRepos() {
