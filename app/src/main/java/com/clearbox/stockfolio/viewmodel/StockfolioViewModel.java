@@ -1,6 +1,7 @@
 package com.clearbox.stockfolio.viewmodel;
 
-import android.icu.util.TimeUnit;
+import android.content.Context;
+import android.content.SharedPreferences;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -12,8 +13,10 @@ import com.clearbox.stockfolio.network.FinnhubApiClient;
 import com.clearbox.stockfolio.network.model.FinnhubAsset;
 import com.clearbox.stockfolio.network.model.FinnhubAssetCandleData;
 import com.clearbox.stockfolio.network.model.FinnhubAssetStockData;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
-import java.sql.Timestamp;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +26,7 @@ import rx.Subscriber;
 
 public class StockfolioViewModel extends ViewModel {
 
+    private static final String HELD_ASSETS = "HELD_ASSETS";
     @Inject
     FinnhubApiClient mFinnhubApiClient;
 
@@ -30,7 +34,9 @@ public class StockfolioViewModel extends ViewModel {
     private final MutableLiveData<FinnhubAsset> mSelectedFinnhubAsset = new MutableLiveData<>();
     private final MutableLiveData<FinnhubAssetStockData> mFinnhubAssetStockData = new MutableLiveData<>();
     private final MutableLiveData<FinnhubAssetCandleData> mFinnhubAssetCandleData = new MutableLiveData<>();
-    private static final List<HeldAsset> mHeldAssets = new ArrayList<>();
+    private static Gson mGson = new Gson();
+    private static SharedPreferences mSharedPref = StockfolioApplication.getInstance().getSharedPreferences(HELD_ASSETS,Context.MODE_PRIVATE);
+    private static List<HeldAsset> mHeldAssets = retrieveHeldAssets();
 //    private final MutableLiveData<GitHubIssue> mSelectedIssue = new MutableLiveData<>();
 //    private MutableLiveData<List<GitHubIssue>> mIssues;
 
@@ -180,6 +186,30 @@ public class StockfolioViewModel extends ViewModel {
         if (!found) {
             mHeldAssets.add(new HeldAsset(getSelectedAsset().getValue().symbol, quantity));
         }
+
+        saveHeldAssets();
+    }
+
+    public static List<HeldAsset> retrieveHeldAssets() {
+        String heldAssetJson = mSharedPref.getString(HELD_ASSETS, "");
+
+        Type listType = new TypeToken<ArrayList<HeldAsset>>(){}.getType();
+
+        List<HeldAsset> res = mGson.fromJson(heldAssetJson, listType);
+        if (res == null) return new ArrayList<>();
+        return res;
+    }
+
+    public void saveHeldAssets() {
+        String heldAssetJson = mGson.toJson(mHeldAssets);
+
+        if (heldAssetJson == null || heldAssetJson.isEmpty()) {
+            heldAssetJson = "";
+        }
+
+        SharedPreferences.Editor editor = mSharedPref.edit();
+        editor.putString(HELD_ASSETS, heldAssetJson);
+        editor.commit();
     }
 
 //    public LiveData<List<GitHubIssue>> getRepos() {
