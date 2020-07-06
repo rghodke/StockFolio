@@ -21,14 +21,14 @@
             android:maxLines="1"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:text="$1000.10" />
+            android:text="---" />
         <TextView
             android:id="@+id/TextView_stock_price_delta"
             android:layout_width="0dp"
             android:layout_weight="25"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text=".05%"
+            android:text="---%"
             />
     </LinearLayout>
 
@@ -57,12 +57,12 @@
         android:id="@+id/chart"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="40" />
+        android:layout_weight="30" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="43">
+        android:layout_weight="25">
 
         <LinearLayout
             android:id="@+id/LinearLayout_Stock_Details_Top"
@@ -261,8 +261,9 @@
             <com.clearbox.stockfolio.customview.NoBackEditText
                 android:id="@+id/EditText_Quantity"
                 android:layout_alignParentTop="true"
-                android:hint="TEXT"
-                android:inputType="number"
+                android:maxLines="1"
+                android:focusableInTouchMode="false"
+                android:hint="@string/enter_number_of_shares_using_keyboard_below"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
@@ -290,4 +291,12 @@
             </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>
+
+    <com.clearbox.stockfolio.customview.NumberKeyboard
+        android:id="@+id/Keyboard_Number"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="28"/>
+
 </LinearLayout>

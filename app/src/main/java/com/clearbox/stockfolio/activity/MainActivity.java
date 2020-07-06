@@ -84,9 +84,7 @@ public class MainActivity extends AppCompatActivity implements AddAssetFragment.
 
     public void goToAddTransactionFragment() {
         //Create a fragment if not already created
-        if (mAddAssetDetailFragment == null) {
-            mAddAssetDetailFragment = AddAssetDetailFragment.newInstance();
-        }
+        mAddAssetDetailFragment = AddAssetDetailFragment.newInstance();
 
         //Setup the fragment holder as necessary
         if (mFragmentHolder == null) setupViews();

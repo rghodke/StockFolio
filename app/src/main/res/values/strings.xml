@@ -12,4 +12,5 @@
     <string name="label_high">High</string>
     <string name="label_low">Low</string>
     <string name="label_price_change">Price Change</string>
+    <string name="enter_number_of_shares_using_keyboard_below">Enter number of shares using keyboard below</string>
 </resources>
