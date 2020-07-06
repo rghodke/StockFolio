@@ -239,6 +239,8 @@ public class AddAssetDetailFragment extends Fragment {
         }
         List<Entry> entriesUnits = new ArrayList<Entry>();
         try {
+            mHigh = -1;
+            mLow = -1;
             int minSize = 0;
             minSize = Math.min(candleData.close.size(), candleData.time.size());
             for (int i = 0; i < minSize; i++) {
