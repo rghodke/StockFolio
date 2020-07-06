@@ -53,6 +53,7 @@ public class PortfolioFragment extends Fragment {
         if (getActivity() != null)
             mModel = ViewModelProviders.of(getActivity()).get(StockfolioViewModel.class);
 
+        mModel.updateHeldAssetData();
         setupViews(view);
         
         return view;

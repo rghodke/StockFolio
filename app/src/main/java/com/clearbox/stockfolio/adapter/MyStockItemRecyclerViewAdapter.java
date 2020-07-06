@@ -12,6 +12,8 @@ import com.clearbox.stockfolio.R;
 import com.clearbox.stockfolio.fragment.dummy.DummyContent.DummyItem;
 import com.clearbox.stockfolio.model.HeldAsset;
 
+import org.parceler.apache.commons.lang.StringUtils;
+
 import java.util.List;
 
 /**
@@ -37,10 +39,12 @@ public class MyStockItemRecyclerViewAdapter extends RecyclerView.Adapter<MyStock
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.mTextViewStockName.setText(mValues.get(position).symbol);
-        holder.mTextViewCurrentPrice.setText(mValues.get(position).symbol);
+        holder.mTextViewCurrentPrice.setText(String.valueOf(mValues.get(position).currentPrice));
         holder.mTextViewPriceDelta.setText(mValues.get(position).symbol);
-        holder.mTextViewHoldingsPrice.setText(mValues.get(position).symbol);
-        holder.mTextViewHoldingsAmount.setText(String.valueOf(mValues.get(position).quantity));
+        if (mValues.get(position).currentPrice == null) mValues.get(position).currentPrice = -1.0;
+        if (mValues.get(position).quantity == null) mValues.get(position).quantity = 2.0;
+        holder.mTextViewHoldingsPrice.setText(String.valueOf(mValues.get(position).currentPrice * mValues.get(position).quantity));
+        holder.mTextViewHoldingsAmount.setText(StringUtils.stripStart(String.valueOf(mValues.get(position).quantity), "0"));
     }
 
     @Override

@@ -84,6 +84,27 @@ public class StockfolioViewModel extends ViewModel {
         return mFinnhubAssetStockData;
     }
 
+    public void updateHeldAssetData() {
+        for (HeldAsset asset : mHeldAssets) {
+            mFinnhubApiClient.loadStockData(asset.symbol).subscribe(new Subscriber<FinnhubAssetStockData>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+
+                }
+
+                @Override
+                public void onNext(FinnhubAssetStockData finnhubAssetStockData) {
+                    asset.currentPrice = finnhubAssetStockData.current;
+                }
+            });
+        }
+    }
+
     private void loadFinnhubAssetStockData(FinnhubAsset finnhubAsset) {
         mFinnhubApiClient.loadStockData(finnhubAsset.symbol).subscribe(new Subscriber<FinnhubAssetStockData>() {
             @Override
@@ -171,6 +192,7 @@ public class StockfolioViewModel extends ViewModel {
     }
 
     public List<HeldAsset> getHeldAssets(){
+        updateHeldAssetData();
         return mHeldAssets;
     }
 

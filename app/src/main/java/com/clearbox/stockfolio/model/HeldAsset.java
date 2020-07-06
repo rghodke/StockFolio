@@ -6,6 +6,7 @@ import org.parceler.Parcel;
 public class HeldAsset {
 
     public String symbol;
+    public Double currentPrice;
     public Double quantity;
 
     public HeldAsset(String symbol, Double quantity) {
