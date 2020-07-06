@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 
 import com.clearbox.stockfolio.R;
 import com.clearbox.stockfolio.adapter.DateAxisFormatter;
+import com.clearbox.stockfolio.customview.NumberKeyboard;
 import com.clearbox.stockfolio.network.model.FinnhubAssetCandleData;
 import com.clearbox.stockfolio.network.model.FinnhubAssetStockData;
 import com.clearbox.stockfolio.viewmodel.StockfolioViewModel;
@@ -39,8 +41,6 @@ import java.util.List;
  */
 public class AddAssetDetailFragment extends Fragment {
 
-    private Spinner mSpinner;
-
     public interface OnAddAssetDetailFragmentInteractionListener {
         void updateGraphAtInterval(int i);
 
@@ -57,6 +57,9 @@ public class AddAssetDetailFragment extends Fragment {
     private EditText mEditTextQuantity;
 
     private Button mButtonBuy, mButtonSell;
+
+    private Spinner mSpinner;
+    private NumberKeyboard mNumberKeyboard;
 
     private float mLow, mHigh;
 
@@ -188,6 +191,9 @@ public class AddAssetDetailFragment extends Fragment {
                 }
             }
         });
+
+        mNumberKeyboard = view.findViewById(R.id.Keyboard_Number);
+        mNumberKeyboard.setInputConnection(mEditTextQuantity.onCreateInputConnection(new EditorInfo()));
     }
 
     private void showKeyboardForEditTextQuantity() {
