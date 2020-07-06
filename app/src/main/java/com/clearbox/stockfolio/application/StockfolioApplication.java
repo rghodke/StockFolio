@@ -9,10 +9,12 @@ import com.clearbox.stockfolio.dagger.NetworkModule;
 public class StockfolioApplication extends Application {
 
     private static StockfolioComponent mStockfolioComponent;
+    private static StockfolioApplication mInstance;
 
     @Override
     public void onCreate(){
         super.onCreate();
+        mInstance = this;
         initDaggerObjectGraph();
     }
 
@@ -22,5 +24,9 @@ public class StockfolioApplication extends Application {
 
     public static StockfolioComponent getStockfolioComponent() {
         return mStockfolioComponent;
+    }
+
+    public static StockfolioApplication getInstance() {
+        return mInstance;
     }
 }
