@@ -136,7 +136,7 @@ public class AddAssetDetailFragment extends Fragment {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
         mEditTextQuantity = view.findViewById(R.id.EditText_Quantity);
-        showKeyboardForEditTextQuantity();
+//        showKeyboardForEditTextQuantity();
 
         mTextViewStockPrice = view.findViewById(R.id.TextView_stock_price);
         mTextViewStockPriceDelta = view.findViewById(R.id.TextView_stock_price_delta);
@@ -214,7 +214,7 @@ public class AddAssetDetailFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        showKeyboardForEditTextQuantity();
+//        showKeyboardForEditTextQuantity();
     }
 
     private void updateGraphInterval(int i) {
