@@ -10,6 +10,7 @@
         android:layout_weight="250"
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:maxLines="1"
         android:gravity="center_vertical"
         android:layout_margin="@dimen/text_margin"
         android:textAppearance="?attr/textAppearanceListItem" />
@@ -25,6 +26,7 @@
             android:id="@+id/TextView_stock_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxLines="1"
             android:textAppearance="?attr/textAppearanceListItem"/>
 
         <TextView
@@ -32,6 +34,7 @@
             android:layout_below="@+id/TextView_stock_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxLines="1"
             android:textAppearance="?attr/textAppearanceListItem"/>
 
     </RelativeLayout>
@@ -47,6 +50,7 @@
             android:id="@+id/TextView_holdings_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxLines="1"
             android:textAppearance="?attr/textAppearanceListItem"/>
 
         <TextView
@@ -54,6 +58,7 @@
             android:layout_below="@+id/TextView_holdings_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxLines="1"
             android:textAppearance="?attr/textAppearanceListItem"/>
 
     </RelativeLayout>

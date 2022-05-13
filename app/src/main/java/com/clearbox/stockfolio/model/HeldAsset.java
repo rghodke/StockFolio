@@ -9,8 +9,9 @@ public class HeldAsset {
     public Double currentPrice;
     public Double quantity;
 
-    public HeldAsset(String symbol, Double quantity) {
+    public HeldAsset(String symbol, Double quantity, Double stockPrice) {
         this.symbol = symbol;
         this.quantity = quantity;
+        this.currentPrice = stockPrice;
     }
 }

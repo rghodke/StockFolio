@@ -39,11 +39,17 @@ public class MyStockItemRecyclerViewAdapter extends RecyclerView.Adapter<MyStock
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.mTextViewStockName.setText(mValues.get(position).symbol);
-        holder.mTextViewCurrentPrice.setText(String.valueOf(mValues.get(position).currentPrice));
+        if (mValues.get(position).currentPrice == null) {
+            holder.mTextViewCurrentPrice.setText("---");
+        } else {
+            holder.mTextViewCurrentPrice.setText(String.format("%.2f", (mValues.get(position).currentPrice)));
+        }
         holder.mTextViewPriceDelta.setText(mValues.get(position).symbol);
-        if (mValues.get(position).currentPrice == null) mValues.get(position).currentPrice = -1.0;
-        if (mValues.get(position).quantity == null) mValues.get(position).quantity = 2.0;
-        holder.mTextViewHoldingsPrice.setText(String.valueOf(mValues.get(position).currentPrice * mValues.get(position).quantity));
+        if (mValues.get(position).currentPrice == null) {
+            holder.mTextViewHoldingsPrice.setText("---");
+        } else {
+            holder.mTextViewHoldingsPrice.setText(String.format("%.2f", (mValues.get(position).currentPrice * mValues.get(position).quantity)));
+        }
         holder.mTextViewHoldingsAmount.setText(StringUtils.stripStart(String.valueOf(mValues.get(position).quantity), "0"));
     }
 

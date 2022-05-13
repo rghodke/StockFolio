@@ -202,11 +202,12 @@ public class StockfolioViewModel extends ViewModel {
             if (heldAsset.symbol.equalsIgnoreCase(getSelectedAsset().getValue().symbol)) {
                 found = true;
                 heldAsset.quantity = heldAsset.quantity + quantity;
+                heldAsset.currentPrice = getFinnhubStockData().getValue().current;
             }
         }
 
         if (!found) {
-            mHeldAssets.add(new HeldAsset(getSelectedAsset().getValue().symbol, quantity));
+            mHeldAssets.add(new HeldAsset(getSelectedAsset().getValue().symbol, quantity, getFinnhubStockData().getValue().current));
         }
 
         saveHeldAssets();
@@ -214,6 +215,8 @@ public class StockfolioViewModel extends ViewModel {
 
     public static List<HeldAsset> retrieveHeldAssets() {
         String heldAssetJson = mSharedPref.getString(HELD_ASSETS, "");
+
+        System.out.println("heldAssetJson RETRIEVE = " + heldAssetJson);
 
         Type listType = new TypeToken<ArrayList<HeldAsset>>(){}.getType();
 
@@ -224,6 +227,8 @@ public class StockfolioViewModel extends ViewModel {
 
     public void saveHeldAssets() {
         String heldAssetJson = mGson.toJson(mHeldAssets);
+
+        System.out.println("heldAssetJson SAVE = " + heldAssetJson);
 
         if (heldAssetJson == null || heldAssetJson.isEmpty()) {
             heldAssetJson = "";
